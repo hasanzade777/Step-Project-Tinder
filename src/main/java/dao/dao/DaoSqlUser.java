@@ -1,8 +1,12 @@
 package dao.dao;
 
+import dao.controllers.DBController;
 import entities.User;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +17,7 @@ public class DaoSqlUser extends DaoSql<User> {
     }
 
     @Override
-    public void save(User obj) {
+    public void save(User user) {
         throw new RuntimeException();
     }
 
@@ -23,8 +27,20 @@ public class DaoSqlUser extends DaoSql<User> {
     }
 
     @Override
-    public Optional<User> get(User obj) {
-        throw new RuntimeException();
+    public Optional<User> get(User user) {
+        Connection conn = getConn();
+        String SQL = "SELECT * FROM users WHERE email_address = (?) AND password = (?)";
+        try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
+            psttm.setString(1, user.getEmailAddress());
+            psttm.setString(2, user.getPassword());
+            ResultSet rs = psttm.executeQuery();
+            if (!rs.isBeforeFirst()) {
+                return Optional.empty();
+            }
+            return Optional.of(DBController.remapResult(rs, User::getFromResultSet));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -33,7 +49,7 @@ public class DaoSqlUser extends DaoSql<User> {
     }
 
     @Override
-    public boolean remove(User obj) {
+    public boolean remove(User user) {
         throw new RuntimeException();
     }
 

@@ -1,20 +1,15 @@
 package listeners;
 
 import dao.controllers.DBController;
-import dao.dao.DaoSqlLike;
-import dao.dao.DaoSqlMessage;
-import dao.dao.DaoSqlUser;
-import dao.services.LikeService;
-import dao.services.MessageService;
-import dao.services.UserService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ServletContextListener implements javax.servlet.ServletContextListener {
+public class MyServletContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext sc = sce.getServletContext();

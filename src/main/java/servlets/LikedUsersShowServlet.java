@@ -25,7 +25,7 @@ public class LikedUsersShowServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
-            templ = conf.getTemplate("people-list");
+            templ = conf.getTemplate("people-list.ftl");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

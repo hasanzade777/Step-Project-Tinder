@@ -26,7 +26,7 @@ public class LikePageServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
-            templ = conf.getTemplate("like-page");
+            templ = conf.getTemplate("like-page.ftl");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

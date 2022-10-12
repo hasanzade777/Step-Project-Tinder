@@ -1,7 +1,6 @@
 package filters;
 
 import javax.servlet.*;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class LoginFilter implements Filter {
             chain.doFilter(request, response);
         }
         else {
-            HttpServletResponse resp = (HttpServletResponse) request;
+            HttpServletResponse resp = (HttpServletResponse) response;
             resp.sendRedirect("/login");
         }
     }

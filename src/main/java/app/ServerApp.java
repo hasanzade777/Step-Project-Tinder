@@ -1,5 +1,6 @@
 package app;
 
+import com.mysql.cj.log.Log;
 import filters.LoginFilter;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
@@ -23,7 +24,8 @@ public class ServerApp {
             handler.addServlet(LikePageServlet.class, "/like-page");
             handler.addServlet(LikedUsersShowServlet.class, "/liked");
             //filters
-            handler.addFilter(LoginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/like-page/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
             //context-listener
             handler.addEventListener(new MyServletContextListener());
             //context-params

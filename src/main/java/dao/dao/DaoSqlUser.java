@@ -3,10 +3,8 @@ package dao.dao;
 import dao.controllers.DBController;
 import entities.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +53,17 @@ public class DaoSqlUser extends DaoSql<User> {
 
     @Override
     public List<User> getAll() {
-        throw new RuntimeException();
+        Connection conn = getConn();
+        String SQL = "SELECT * FROM users";
+        try (Statement sttm = conn.createStatement()) {
+            ResultSet rs = sttm.executeQuery(SQL);
+            if (!rs.isBeforeFirst()) {
+                return new ArrayList<>();
+            }
+            return new ArrayList<>(DBController.remapResultSet(rs, User::getFromResultSet));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

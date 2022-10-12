@@ -43,7 +43,7 @@
                                     ${user.job}
                                 </td>
                                 <td  class="align-middle">
-                                    Last Login:  ${user.lastLoginDate}<br><small class="text-muted">x days ago</small>
+                                    Last Login:  ${user.lastLoginDate}<br><small class="text-muted">${user.lastActiveTime}</small>
                                 </td>
                             </tr>
                             </#list>

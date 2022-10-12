@@ -48,11 +48,11 @@ public class LikePageServlet extends HttpServlet {
         HttpSession session = req.getSession();
         if (session.isNew()) {
             List<User> allUsers = dbc.getAllUsers();
-            long loggedInUserId = Integer.parseInt(Arrays.stream(req.getCookies())
+            long userLoggedInId = Integer.parseInt(Arrays.stream(req.getCookies())
                     .filter(cookie -> cookie.getName().equals("c_user"))
                     .findAny()
                     .get().getValue());
-            allUsers.removeIf(user -> user.getId() == loggedInUserId);
+            allUsers.removeIf(user -> user.getId() == userLoggedInId);
             if (allUsers.isEmpty()) {
                 resp.setContentType("text/html");
                 try (PrintWriter pw = resp.getWriter()) {
@@ -65,16 +65,15 @@ public class LikePageServlet extends HttpServlet {
         }
         List<User> usersNotChecked = (List<User>) session.getAttribute("usersNotChecked");
         int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
-        User user = null;
         try {
-            user = usersNotChecked.get(userDisplayIndex);
+            User user = usersNotChecked.get(userDisplayIndex);
             session.setAttribute("userToDisplay", user);
+            try (PrintWriter pw = resp.getWriter()) {
+                templ.process(Map.of("user", user), pw);
+            }
         }
         catch (IndexOutOfBoundsException e) {
             resp.sendRedirect("/liked");
-        }
-        try (PrintWriter pw = resp.getWriter()) {
-            templ.process(Map.of("user", user), pw);
         }
         catch (TemplateException e) {
             throw new RuntimeException(e);

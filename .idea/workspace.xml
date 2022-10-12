@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c4519169-fc4d-4999-9cdf-f95b79bf4955" name="Changes" comment="loginfilter works now" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ali" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FzgMdlWkwHMqDgneAiOP0v1DXY" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="servlets" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ServerApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="app.ServerApp" />
+      <module name="Step-Project-Tinder" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ServerApp" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c4519169-fc4d-4999-9cdf-f95b79bf4955" name="Changes" comment="" />
+      <created>1665500282450</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665500282450</updated>
+      <workItem from="1665500284638" duration="1332000" />
+      <workItem from="1665501846495" duration="1389000" />
+      <workItem from="1665503342217" duration="999000" />
+      <workItem from="1665504964979" duration="701000" />
+      <workItem from="1665505773880" duration="29000" />
+      <workItem from="1665505816481" duration="307000" />
+      <workItem from="1665506141297" duration="70000" />
+      <workItem from="1665506238741" duration="5152000" />
+      <workItem from="1665511562943" duration="63000" />
+      <workItem from="1665511664368" duration="6769000" />
+      <workItem from="1665555849191" duration="169000" />
+      <workItem from="1665556109509" duration="3915000" />
+      <workItem from="1665560146907" duration="474000" />
+      <workItem from="1665560643810" duration="877000" />
+      <workItem from="1665561569467" duration="6737000" />
+      <workItem from="1665571712268" duration="189000" />
+      <workItem from="1665572619659" duration="1177000" />
+      <workItem from="1665574667113" duration="3476000" />
+    </task>
+    <task id="LOCAL-00001" summary="changed login.html post action to /login,&#10;created entity classes,&#10;added servlet context-params,&#10;added servlet context listener.">
+      <created>1665508087878</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1665508087878</updated>
+    </task>
+    <task id="LOCAL-00002" summary="made doPost of LoginServlet throw an exception">
+      <created>1665508733911</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1665508733911</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added name, surname fields to User">
+      <created>1665509781876</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1665509781876</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added password field to User.java">
+      <created>1665510583319</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1665510583319</updated>
+    </task>
+    <task id="LOCAL-00005" summary="implemented dao for sql">
+      <created>1665518248447</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518248447</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added name parameter for inputs">
+      <created>1665518286446</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518286446</updated>
+    </task>
+    <task id="LOCAL-00007" summary="if user not found, redirect to /login. else, redirect to /users.">
+      <created>1665518345130</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518345130</updated>
+    </task>
+    <task id="LOCAL-00008" summary="renamed">
+      <created>1665518358634</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518358634</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added postgresql dependency">
+      <created>1665518376555</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518376555</updated>
+    </task>
+    <task id="LOCAL-00010" summary="added servletcontextlistener, users servlet">
+      <created>1665518400825</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518400825</updated>
+    </task>
+    <task id="LOCAL-00011" summary="servlet context listener">
+      <created>1665518418682</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518418682</updated>
+    </task>
+    <task id="LOCAL-00012" summary="added email address field">
+      <created>1665518447094</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518447094</updated>
+    </task>
+    <task id="LOCAL-00013" summary="can return a User by email and password">
+      <created>1665518472214</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518472214</updated>
+    </task>
+    <task id="LOCAL-00014" summary="can return a User by email and password">
+      <created>1665518482401</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1665518482401</updated>
+    </task>
+    <task id="LOCAL-00015" summary="getAll() implemented">
+      <created>1665567776002</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1665567776002</updated>
+    </task>
+    <task id="LOCAL-00016" summary="updateLastLogin of user added, getAll() implemented">
+      <created>1665567828019</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1665567828019</updated>
+    </task>
+    <task id="LOCAL-00017" summary="converted to .ftl">
+      <created>1665567918313</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1665567918313</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added filters, servlets">
+      <created>1665567960905</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1665567960905</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added job, last login date and time fields">
+      <created>1665567987651</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1665567987651</updated>
+    </task>
+    <task id="LOCAL-00020" summary="added updateLastLogin, getAll()">
+      <created>1665568019211</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568019211</updated>
+    </task>
+    <task id="LOCAL-00021" summary="removed substring">
+      <created>1665568076078</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568076078</updated>
+    </task>
+    <task id="LOCAL-00022" summary="field is DaoSql now">
+      <created>1665568118335</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568118335</updated>
+    </task>
+    <task id="LOCAL-00023" summary="/like-page servlet initialization">
+      <created>1665568150479</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568150479</updated>
+    </task>
+    <task id="LOCAL-00024" summary="deleted">
+      <created>1665568173452</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568173452</updated>
+    </task>
+    <task id="LOCAL-00025" summary="deleted">
+      <created>1665568186718</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568186718</updated>
+    </task>
+    <task id="LOCAL-00026" summary="login filter added">
+      <created>1665568293433</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568293433</updated>
+    </task>
+    <task id="LOCAL-00027" summary="class files etc">
+      <created>1665568309226</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1665568309226</updated>
+    </task>
+    <task id="LOCAL-00028" summary="method name changed">
+      <created>1665571894388</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1665571894388</updated>
+    </task>
+    <task id="LOCAL-00029" summary="corrected template names">
+      <created>1665577052850</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1665577052850</updated>
+    </task>
+    <task id="LOCAL-00030" summary="loginfilter works now">
+      <created>1665577878454</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1665577878454</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="if user not found, redirect to /login. else, redirect to /users." />
+    <MESSAGE value="renamed" />
+    <MESSAGE value="added postgresql dependency" />
+    <MESSAGE value="added servletcontextlistener, users servlet" />
+    <MESSAGE value="servlet context listener" />
+    <MESSAGE value="added email address field" />
+    <MESSAGE value="can return a User by email and password" />
+    <MESSAGE value="getAll() implemented" />
+    <MESSAGE value="updateLastLogin of user added" />
+    <MESSAGE value="updateLastLogin of user added, getAll() implemented" />
+    <MESSAGE value="converted to .ftl" />
+    <MESSAGE value="added filters, servlets" />
+    <MESSAGE value="added job, last login date and time fields" />
+    <MESSAGE value="added updateLastLogin, getAll()" />
+    <MESSAGE value="removed substring" />
+    <MESSAGE value="field is DaoSql now" />
+    <MESSAGE value="like-page initialization" />
+    <MESSAGE value="/like-page servlet initialization" />
+    <MESSAGE value="deleted" />
+    <MESSAGE value="unversioned files" />
+    <MESSAGE value="login filter added" />
+    <MESSAGE value="class files etc" />
+    <MESSAGE value="method name changed" />
+    <MESSAGE value="corrected template names" />
+    <MESSAGE value="loginfilter works now" />
+    <option name="LAST_COMMIT_MESSAGE" value="loginfilter works now" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/listeners/MyServletContextListener.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/app/ServerApp.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

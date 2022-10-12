@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class User implements Identifiable {
     private long id;
@@ -78,4 +79,5 @@ public class User implements Identifiable {
             throw new RuntimeException(e);
         }
     }
+
 }

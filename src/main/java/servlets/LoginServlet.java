@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        dbc = (DBController) getServletContext().getAttribute("DBController");
+        this.dbc = (DBController) getServletContext().getAttribute("DBController");
     }
 
     @Override
@@ -43,13 +43,17 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Optional<User> userOpt = dbc.getUser(req.getParameter("inputEmail"), req.getParameter("inputPassword"));
+        String inputEmail = req.getParameter("inputEmail");
+        String inputPassword = req.getParameter("inputPassword");
+        Optional<User> userOpt = dbc.getUser(inputEmail, inputPassword);
         if (userOpt.isEmpty()) {
             resp.sendRedirect("/login"); //wrong username or password message to be added
         }
         else {
-            dbc.updateLastLogin(userOpt.get().getId());
-            Cookie cookie = new Cookie("c_user", String.valueOf(userOpt.get().getId()));
+            User userLoggedIn = userOpt.get();
+            long userLoggedInId = userLoggedIn.getId();
+            dbc.updateLastLogin(userLoggedInId);
+            Cookie cookie = new Cookie("c_user", String.valueOf(userLoggedInId));
             cookie.setMaxAge(10 * 24 * 60 * 60); //10 days
             resp.addCookie(cookie);
             resp.sendRedirect("/like-page");

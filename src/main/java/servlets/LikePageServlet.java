@@ -27,7 +27,7 @@ public class LikePageServlet extends HttpServlet {
     private DBController dbc;
 
     @Override
-    public void init() throws ServletException {
+    public void init(){
         dbc = (DBController) getServletContext().getAttribute("DBController");
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
         conf.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
@@ -44,25 +44,8 @@ public class LikePageServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        if (session.isNew()) {
-            List<User> allUsers = dbc.getAllUsers();
-            long userLoggedInId = Integer.parseInt(Arrays.stream(req.getCookies())
-                    .filter(cookie -> cookie.getName().equals("c_user"))
-                    .findAny()
-                    .get().getValue());
-            allUsers.removeIf(user -> user.getId() == userLoggedInId);
-            if (allUsers.isEmpty()) {
-                resp.setContentType("text/html");
-                try (PrintWriter pw = resp.getWriter()) {
-                    pw.println("No user to display<br>");
-                }
-            }
-            session.setAttribute("usersNotChecked", allUsers);
-            session.setAttribute("usersLiked", new ArrayList<User>());
-            session.setAttribute("userDisplayIndex", 0);
-        }
         List<User> usersNotChecked = (List<User>) session.getAttribute("usersNotChecked");
         int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
         try {
@@ -81,7 +64,7 @@ public class LikePageServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String preference = req.getParameter("button");
         HttpSession session = req.getSession();
         int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");

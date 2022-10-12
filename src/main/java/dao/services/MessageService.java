@@ -1,12 +1,13 @@
 package dao.services;
 
 import dao.dao.DAO;
+import dao.dao.DaoSql;
 import entities.Message;
 
 public class MessageService {
-    private DAO<Message> dao;
+    private DaoSql<Message> dao;
 
-    public MessageService(DAO<Message> dao) {
+    public MessageService(DaoSql<Message> dao) {
         this.dao = dao;
     }
 }

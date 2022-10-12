@@ -22,9 +22,7 @@ public class LoginFilter implements Filter {
             HttpServletResponse resp = (HttpServletResponse) response;
             resp.sendRedirect("/login");
         }
-        else {
-            chain.doFilter(request, response);
-        }
+        chain.doFilter(request, response);
     }
 
     @Override

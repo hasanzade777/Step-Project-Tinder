@@ -1,19 +1,29 @@
 package app;
 
+import filters.LoginFilter;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import servlets.LikedUsersShowServlet;
 import servlets.LoginServlet;
-import servlets.UsersServlet;
+import servlets.LikePageServlet;
+
+import javax.servlet.DispatcherType;
+import java.util.EnumSet;
 
 public class ServerApp {
     public static void main(String[] args) {
         try {
             Server server = new Server(8080);
-            ServletContextHandler handler = new ServletContextHandler();
+            ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            handler.setSessionHandler(new SessionHandler());
             //servlets
             handler.addServlet(LoginServlet.class, "/login");
-            handler.addServlet(UsersServlet.class, "/users");
+            handler.addServlet(LikePageServlet.class, "/like-page");
+            handler.addServlet(LikedUsersShowServlet.class, "/liked");
+            //filters
+            handler.addFilter(LoginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
             //context-listener
             handler.addEventListener(new MyServletContextListener());
             //context-params

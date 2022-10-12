@@ -18,7 +18,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         Optional<Cookie[]> cookiesOpt = Optional.ofNullable(req.getCookies());
-        if (cookiesOpt.isEmpty() || Arrays.stream(req.getCookies()).noneMatch(cookie -> cookie.getName().equals("c_user"))) {
+        if (cookiesOpt.isEmpty() || Arrays.stream(cookiesOpt.get()).noneMatch(cookie -> cookie.getName().equals("c_user"))) {
             HttpServletResponse resp = (HttpServletResponse) response;
             resp.sendRedirect("/login");
         }

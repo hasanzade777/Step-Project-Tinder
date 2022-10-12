@@ -56,7 +56,7 @@ public class LikePageServlet extends HttpServlet {
             if (allUsers.isEmpty()) {
                 resp.setContentType("text/html");
                 try (PrintWriter pw = resp.getWriter()) {
-                    pw.println("No user to display");
+                    pw.println("No user to display<br>");
                 }
             }
             session.setAttribute("usersNotChecked", allUsers);
@@ -65,14 +65,16 @@ public class LikePageServlet extends HttpServlet {
         }
         List<User> usersNotChecked = (List<User>) session.getAttribute("usersNotChecked");
         int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
-        try (PrintWriter pw = resp.getWriter()) {
-            User user = usersNotChecked.get(userDisplayIndex);
+        User user = null;
+        try {
+            user = usersNotChecked.get(userDisplayIndex);
             session.setAttribute("userToDisplay", user);
-            templ.process(Map.of("user", user), pw);
         }
         catch (IndexOutOfBoundsException e) {
-            resp.setContentType("text/html");
             resp.sendRedirect("/liked");
+        }
+        try (PrintWriter pw = resp.getWriter()) {
+            templ.process(Map.of("user", user), pw);
         }
         catch (TemplateException e) {
             throw new RuntimeException(e);

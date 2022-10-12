@@ -15,11 +15,6 @@ public class DaoSqlUser extends DaoSql<User> {
     }
 
     @Override
-    public void save(User user) {
-        throw new RuntimeException();
-    }
-
-    @Override
     public Optional<User> get(long id) {
         throw new RuntimeException();
     }
@@ -42,16 +37,6 @@ public class DaoSqlUser extends DaoSql<User> {
     }
 
     @Override
-    public boolean remove(long id) {
-        throw new RuntimeException();
-    }
-
-    @Override
-    public boolean remove(User user) {
-        throw new RuntimeException();
-    }
-
-    @Override
     public List<User> getAll() {
         Connection conn = getConn();
         String SQL = "SELECT * FROM users";
@@ -64,15 +49,5 @@ public class DaoSqlUser extends DaoSql<User> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void saveAll(List<User> data) {
-        throw new RuntimeException();
-    }
-
-    @Override
-    public void setAll(List<User> data) {
-        throw new RuntimeException();
     }
 }

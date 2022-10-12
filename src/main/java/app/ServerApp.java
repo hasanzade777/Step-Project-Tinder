@@ -4,6 +4,8 @@ import com.mysql.cj.log.Log;
 import filters.LoginFilter;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import servlets.LikedUsersShowServlet;
@@ -19,6 +21,8 @@ public class ServerApp {
         try {
             Server server = new Server(8080);
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            ResourceHandler resourceHandler = new ResourceHandler();
+            resourceHandler.setResourceBase("resources/templates");
             handler.setSessionHandler(new SessionHandler());
             //servlets
             handler.addServlet(LoginServlet.class, "/login");
@@ -35,7 +39,8 @@ public class ServerApp {
             handler.setInitParameter("dbName", "dsq4s45dhepp6");
             handler.setInitParameter("dbUser", "vwktrcuywyclvw");
             handler.setInitParameter("dbPassword", "4cf47f217fec1d3ce6628d934794f6ad4bef3a2e62fb3ef66f13580b3e461e0f");
-            server.setHandler(handler);
+            HandlerList handlerList = new HandlerList(resourceHandler, handler);
+            server.setHandler(handlerList);
             server.start();
             server.join();
         } catch (Exception e) {

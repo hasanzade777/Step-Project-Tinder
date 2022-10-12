@@ -13,11 +13,6 @@ public class DaoSqlMessage extends DaoSql<Message> {
     }
 
     @Override
-    public void save(Message obj) {
-        throw new RuntimeException();
-    }
-
-    @Override
     public Optional<Message> get(long id) {
         throw new RuntimeException();
     }
@@ -28,27 +23,8 @@ public class DaoSqlMessage extends DaoSql<Message> {
     }
 
     @Override
-    public boolean remove(long id) {
-        throw new RuntimeException();
-    }
-
-    @Override
-    public boolean remove(Message obj) {
-        throw new RuntimeException();
-    }
-
-    @Override
     public List<Message> getAll() {
         throw new RuntimeException();
     }
 
-    @Override
-    public void saveAll(List<Message> data) {
-        throw new RuntimeException();
-    }
-
-    @Override
-    public void setAll(List<Message> data) {
-        throw new RuntimeException();
-    }
 }

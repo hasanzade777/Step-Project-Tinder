@@ -10,6 +10,7 @@ public class User implements Identifiable {
     private long id;
     private String name;
     private String surname;
+    private String fullName;
     private String job;
     private String emailAddress;
     private String username;
@@ -22,6 +23,7 @@ public class User implements Identifiable {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.fullName = String.join(" ", name, surname);
         this.job = job;
         this.emailAddress = emailAddress;
         this.username = username;
@@ -61,7 +63,13 @@ public class User implements Identifiable {
         return username;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
 
+    public String getJob() {
+        return job;
+    }
 
     public static User getFromResultSet(ResultSet rs) {
         try {

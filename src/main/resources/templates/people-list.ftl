@@ -28,11 +28,11 @@
                     <div class="table-container">
                         <table class="table-users table" border="0">
                             <tbody>
-                            <#list data as item>
+                            <#list usersLiked as user>
                             <tr>
                                 <td width="10">
                                     <div class="avatar-img">
-                                        <img class="img-circle" src=${user.name} />  
+                                        <img class="img-circle" src=${user.profilePicLink} />  
                                     </div>
 
                                 </td>
@@ -43,61 +43,10 @@
                                     ${user.job}
                                 </td>
                                 <td  class="align-middle">
-                                    Last Login:  ${user.lastLoginDate}<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA" />  
-                                    </div>
-
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td  class="align-middle">
-                                    Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
+                                    Last Login:  ${user.lastLoginDate}<br><small class="text-muted">x days ago</small>
                                 </td>
                             </tr>
                             </#list>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA" />  
-                                    </div>
-
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td  class="align-middle">
-                                    Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA" />  
-                                    </div>
-
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td  class="align-middle">
-                                    Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -106,6 +55,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

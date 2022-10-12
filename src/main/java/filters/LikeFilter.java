@@ -19,7 +19,7 @@ public class LikeFilter implements Filter {
     private DBController dbc;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         this.dbc = (DBController) filterConfig.getServletContext().getAttribute("DBController");
     }
 

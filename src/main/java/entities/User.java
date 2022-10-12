@@ -1,36 +1,36 @@
 package entities;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class User implements Identifiable {
     private long id;
     private String name;
     private String surname;
-    private String fullName;
     private String job;
     private String emailAddress;
     private String username;
     private String password;
     private String profilePicLink;
     private LocalDateTime lastLoginDateTime;
-    private LocalDate lastLoginDate;
 
     public User(long id, String name, String surname, String job, String emailAddress, String username, String password, String profilePicLink, LocalDateTime lastLoginDateTime) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.fullName = String.join(" ", name, surname);
         this.job = job;
         this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
         this.profilePicLink = profilePicLink;
         this.lastLoginDateTime = lastLoginDateTime;
-        this.lastLoginDate = lastLoginDateTime.toLocalDate();
     }
 
     public User(String emailAddress, String password) {
@@ -52,7 +52,7 @@ public class User implements Identifiable {
     }
 
     public LocalDate getLastLoginDate() {
-        return lastLoginDate;
+        return lastLoginDateTime.toLocalDate();
     }
 
     public String getProfilePicLink() {
@@ -64,11 +64,17 @@ public class User implements Identifiable {
     }
 
     public String getFullName() {
-        return fullName;
+        return String.join(" ", name, surname);
     }
 
     public String getJob() {
         return job;
+    }
+
+    public String getLastActiveTime() {
+        return DurationFormatUtils.formatDurationWords(Duration.ofMillis(
+                ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now())).toMillis(),
+                true, true) + " ago";
     }
 
     public static User getFromResultSet(ResultSet rs) {

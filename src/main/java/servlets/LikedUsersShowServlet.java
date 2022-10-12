@@ -42,6 +42,9 @@ public class LikedUsersShowServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
+        if (usersLiked.isEmpty()) {
+            resp.sendRedirect("/like-page");
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("usersLiked", usersLiked);
         try (PrintWriter pw = resp.getWriter()){

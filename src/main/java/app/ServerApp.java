@@ -39,7 +39,8 @@ public class ServerApp {
             handler.setInitParameter("dbName", "dsq4s45dhepp6");
             handler.setInitParameter("dbUser", "vwktrcuywyclvw");
             handler.setInitParameter("dbPassword", "4cf47f217fec1d3ce6628d934794f6ad4bef3a2e62fb3ef66f13580b3e461e0f");
-            server.setHandler(handler);
+            HandlerList handlerList = new HandlerList(handler, resourceHandler);
+            server.setHandler(handlerList);
             server.start();
             server.join();
         } catch (Exception e) {

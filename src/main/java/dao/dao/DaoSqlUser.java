@@ -7,8 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.SneakyThrows;
+
 
 public class DaoSqlUser extends DaoSql<User> {
+
 
     public DaoSqlUser(Connection conn) {
         super(conn);
@@ -19,9 +22,16 @@ public class DaoSqlUser extends DaoSql<User> {
         throw new RuntimeException();
     }
 
+    @SneakyThrows
     @Override
     public Optional<User> get(long id) {
-        throw new RuntimeException();
+        Connection conn = getConn();
+        String SQL = "SELECT * FROM users WHERE id= (?)";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(SQL)) {
+            preparedStatement.setString(1, String.valueOf(id));
+            ResultSet result = preparedStatement.executeQuery();
+            return Optional.of(DBController.remapResult(result, User::getFromResultSet));
+        }
     }
 
     @Override
@@ -32,10 +42,7 @@ public class DaoSqlUser extends DaoSql<User> {
             psttm.setString(1, user.getEmailAddress());
             psttm.setString(2, user.getPassword());
             ResultSet rs = psttm.executeQuery();
-            if (!rs.isBeforeFirst()) {
-                return Optional.empty();
-            }
-            return Optional.of(DBController.remapResult(rs, User::getFromResultSet));
+            return rs.isBeforeFirst() ? Optional.of(DBController.remapResult(rs, User::getFromResultSet)) : Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

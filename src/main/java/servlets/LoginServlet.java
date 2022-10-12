@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile().substring(1);
+        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile();
         List<String> lines = Files.readAllLines(Path.of(fileName));
         try (PrintWriter pw = resp.getWriter()) {
             for (String line : lines) {
@@ -41,10 +41,11 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("/login"); //wrong username or password message to be added
         }
         else {
+            dbc.updateLastLogin(userOpt.get().getId());
             Cookie cookie = new Cookie("c_user", String.valueOf(userOpt.get().getId()));
             cookie.setMaxAge(10 * 24 * 60 * 60); //10 days
             resp.addCookie(cookie);
-            resp.sendRedirect("/users");
+            resp.sendRedirect("/like-page");
         }
     }
 }

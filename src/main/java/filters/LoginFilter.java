@@ -1,10 +1,12 @@
 package filters;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class LoginFilter implements Filter {
     @Override
@@ -15,13 +17,13 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        boolean hasLoggedIn = Arrays.stream(req.getCookies()).anyMatch(cookie -> cookie.getName().equals("c_user"));
-        if (hasLoggedIn) {
-            chain.doFilter(request, response);
-        }
-        else {
+        Optional<Cookie[]> cookiesOpt = Optional.ofNullable(req.getCookies());
+        if (cookiesOpt.isEmpty() || Arrays.stream(req.getCookies()).noneMatch(cookie -> cookie.getName().equals("c_user"))) {
             HttpServletResponse resp = (HttpServletResponse) response;
             resp.sendRedirect("/login");
+        }
+        else {
+            chain.doFilter(request, response);
         }
     }
 

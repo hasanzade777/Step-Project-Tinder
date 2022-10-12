@@ -11,6 +11,7 @@ import servlets.LoginServlet;
 import servlets.LikePageServlet;
 
 import javax.servlet.DispatcherType;
+import java.util.Arrays;
 import java.util.EnumSet;
 
 public class ServerApp {
@@ -24,8 +25,8 @@ public class ServerApp {
             handler.addServlet(LikePageServlet.class, "/like-page");
             handler.addServlet(LikedUsersShowServlet.class, "/liked");
             //filters
-            handler.addFilter(LoginFilter.class, "/like-page/*", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LoginFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/like-page", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
             //context-listener
             handler.addEventListener(new MyServletContextListener());
             //context-params

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,8 +45,8 @@ public class LikedUsersShowServlet extends HttpServlet {
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
         Map<String, Object> data = new HashMap<>();
         data.put("usersLiked", usersLiked);
-        try {
-            templ.process(data, resp.getWriter());
+        try (PrintWriter pw = resp.getWriter()){
+            templ.process(data, pw);
         } catch (TemplateException e) {
             throw new RuntimeException(e);
         }

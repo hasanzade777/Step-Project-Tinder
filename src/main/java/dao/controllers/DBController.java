@@ -46,6 +46,7 @@ public class DBController {
         return us.getAll();
     }
 
+
     public void updateLastLogin(long id) {
         us.updateLastLoginDateTime(id);
     }

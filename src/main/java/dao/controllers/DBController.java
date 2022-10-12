@@ -47,7 +47,7 @@ public class DBController {
     }
 
     public void updateLastLogin(long id) {
-        us.updateLastLogin(id);
+        us.updateLastLoginDateTime(id);
     }
 
     public static <A> A remapResult(ResultSet result, Function<ResultSet, A> f){

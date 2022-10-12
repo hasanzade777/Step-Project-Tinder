@@ -4,6 +4,8 @@ import com.mysql.cj.log.Log;
 import filters.LoginFilter;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import servlets.LikedUsersShowServlet;
@@ -19,6 +21,8 @@ public class ServerApp {
         try {
             Server server = new Server(8080);
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            ResourceHandler resourceHandler = new ResourceHandler();
+            resourceHandler.setResourceBase("jetbrains://idea/navigate/reference?project=Step-Project-Tinder&fqn=templates");
             handler.setSessionHandler(new SessionHandler());
             //servlets
             handler.addServlet(LoginServlet.class, "/login");

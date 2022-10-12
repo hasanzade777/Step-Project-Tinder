@@ -22,7 +22,7 @@ public class ServerApp {
             Server server = new Server(8080);
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             ResourceHandler resourceHandler = new ResourceHandler();
-            resourceHandler.setResourceBase("jetbrains://idea/navigate/reference?project=Step-Project-Tinder&fqn=templates");
+            resourceHandler.setResourceBase("resources/templates/css");
             handler.setSessionHandler(new SessionHandler());
             //servlets
             handler.addServlet(LoginServlet.class, "/login");

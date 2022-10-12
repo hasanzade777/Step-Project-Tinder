@@ -1,9 +1,7 @@
 package dao.controllers;
 
-import dao.dao.DaoSqlLike;
 import dao.dao.DaoSqlMessage;
 import dao.dao.DaoSqlUser;
-import dao.services.LikeService;
 import dao.services.MessageService;
 import dao.services.UserService;
 import entities.User;
@@ -19,25 +17,37 @@ import java.util.function.Function;
 public class DBController {
     private UserService us;
     private MessageService ms;
-    private LikeService ls;
 
     public DBController(Connection conn) {
         this.us = new UserService(new DaoSqlUser(conn));
         this.ms = new MessageService(new DaoSqlMessage(conn));
-        this.ls = new LikeService(new DaoSqlLike(conn));
     }
 
     public Optional<User> getUser(String emailAddress, String password) {
         return us.get(emailAddress, password);
     }
 
-    public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) throws Exception {
+    public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f){
         List<A> data = new ArrayList<>();
-        while (result.next()) {
+        while (true) {
+            try {
+                if (!result.next()) break;
+            }
+            catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             A p = f.apply(result);
             data.add(p);
         }
         return data;
+    }
+
+    public List<User> getAllUsers() {
+        return us.getAll();
+    }
+
+    public void updateLastLogin(long id) {
+        us.updateLastLogin(id);
     }
 
     public static <A> A remapResult(ResultSet result, Function<ResultSet, A> f){

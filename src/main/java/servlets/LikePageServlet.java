@@ -5,6 +5,12 @@ import entities.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,10 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 // http://localhost:8080/like-page
@@ -25,7 +27,7 @@ public class LikePageServlet extends HttpServlet {
     private DBController dbc;
 
     @Override
-    public void init() {
+    public void init(){
         dbc = (DBController) getServletContext().getAttribute("DBController");
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
         conf.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
@@ -44,33 +46,19 @@ public class LikePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        if (session.isNew()) {
-            List<User> allUsers = dbc.getAllUsers();
-            long loggedInUserId = Integer.parseInt(Arrays.stream(req.getCookies())
-                    .filter(cookie -> cookie.getName().equals("c_user"))
-                    .findAny()
-                    .get().getValue());
-            allUsers.removeIf(user -> user.getId() == loggedInUserId);
-            if (allUsers.isEmpty()) {
-                resp.setContentType("text/html");
-                try (PrintWriter pw = resp.getWriter()) {
-                    pw.println("No user to display");
-                }
-            }
-            session.setAttribute("usersNotChecked", allUsers);
-            session.setAttribute("usersLiked", new ArrayList<User>());
-            session.setAttribute("userDisplayIndex", 0);
-        }
         List<User> usersNotChecked = (List<User>) session.getAttribute("usersNotChecked");
         int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
-        try (PrintWriter pw = resp.getWriter()) {
+        try {
             User user = usersNotChecked.get(userDisplayIndex);
             session.setAttribute("userToDisplay", user);
-            templ.process(Map.of("user", user), pw);
-        } catch (IndexOutOfBoundsException e) {
-            resp.setContentType("text/html");
+            try (PrintWriter pw = resp.getWriter()) {
+                templ.process(Map.of("user", user), pw);
+            }
+        }
+        catch (IndexOutOfBoundsException e) {
             resp.sendRedirect("/liked");
-        } catch (TemplateException e) {
+        }
+        catch (TemplateException e) {
             throw new RuntimeException(e);
         }
     }

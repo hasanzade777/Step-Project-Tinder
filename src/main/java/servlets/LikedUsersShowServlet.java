@@ -6,8 +6,10 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -39,10 +41,14 @@ public class LikedUsersShowServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-//        List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
-        List<User> usersLiked = new ArrayList<>();
-        try {
-            templ.process(Map.of("usersLiked", usersLiked), resp.getWriter());
+        List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
+        if (usersLiked.isEmpty()) {
+            resp.sendRedirect("/like-page");
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("usersLiked", usersLiked);
+        try (PrintWriter pw = resp.getWriter()){
+            templ.process(data, pw);
         } catch (TemplateException e) {
             throw new RuntimeException(e);
         }

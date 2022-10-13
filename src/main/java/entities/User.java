@@ -1,9 +1,13 @@
 package entities;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class User implements Identifiable {
@@ -16,7 +20,6 @@ public class User implements Identifiable {
     private String password;
     private String profilePicLink;
     private LocalDateTime lastLoginDateTime;
-    private LocalDate lastLoginDate;
 
     public User(long id, String name, String surname, String job, String emailAddress, String username, String password, String profilePicLink, LocalDateTime lastLoginDateTime) {
         this.id = id;
@@ -28,7 +31,6 @@ public class User implements Identifiable {
         this.password = password;
         this.profilePicLink = profilePicLink;
         this.lastLoginDateTime = lastLoginDateTime;
-        this.lastLoginDate = lastLoginDateTime.toLocalDate();
     }
 
     public User(String emailAddress, String password) {
@@ -50,7 +52,7 @@ public class User implements Identifiable {
     }
 
     public LocalDate getLastLoginDate() {
-        return lastLoginDate;
+        return lastLoginDateTime.toLocalDate();
     }
 
     public String getProfilePicLink() {
@@ -61,7 +63,19 @@ public class User implements Identifiable {
         return username;
     }
 
+    public String getFullName() {
+        return String.join(" ", name, surname);
+    }
 
+    public String getJob() {
+        return job;
+    }
+
+    public String getLastActiveTime() {
+        return DurationFormatUtils.formatDurationWords(Duration.ofMillis(
+                ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now())).toMillis(),
+                true, true) + " ago";
+    }
 
     public static User getFromResultSet(ResultSet rs) {
         try {

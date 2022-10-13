@@ -2,7 +2,6 @@ package dao.services;
 
 import dao.dao.DaoSql;
 import entities.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

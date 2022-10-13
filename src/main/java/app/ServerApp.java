@@ -1,21 +1,18 @@
 package app;
 
-import com.mysql.cj.log.Log;
 import filters.LikeFilter;
 import filters.LoginFilter;
+import java.util.EnumSet;
+import javax.servlet.DispatcherType;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import servlets.LikePageServlet;
 import servlets.LikedUsersShowServlet;
 import servlets.LoginServlet;
-import servlets.LikePageServlet;
-
-import javax.servlet.DispatcherType;
-import java.util.Arrays;
-import java.util.EnumSet;
 
 public class ServerApp {
     public static void main(String[] args) {
@@ -23,16 +20,16 @@ public class ServerApp {
             Server server = new Server(8080);
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             ResourceHandler resourceHandler = new ResourceHandler();
-            resourceHandler.setResourceBase("resources/templates/css");
+            resourceHandler.setResourceBase("");
             handler.setSessionHandler(new SessionHandler());
             //servlets
             handler.addServlet(LoginServlet.class, "/login");
-            handler.addServlet(LikePageServlet.class, "/like-page");
+            handler.addServlet(LikePageServlet.class, "/users");
             handler.addServlet(LikedUsersShowServlet.class, "/liked");
             //filters
-            handler.addFilter(LoginFilter.class, "/like-page", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(LoginFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LikeFilter.class, "/like-page", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LikeFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(LikeFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
             //context-listener
             handler.addEventListener(new MyServletContextListener());

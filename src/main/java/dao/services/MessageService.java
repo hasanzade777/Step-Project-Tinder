@@ -1,6 +1,5 @@
 package dao.services;
 
-import dao.dao.DAO;
 import dao.dao.DaoSql;
 import entities.Message;
 

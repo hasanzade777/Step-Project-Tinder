@@ -5,7 +5,6 @@ import dao.dao.DaoSqlUser;
 import dao.services.MessageService;
 import dao.services.UserService;
 import entities.User;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

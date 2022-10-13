@@ -343,7 +343,7 @@ input:focus{
   top: 0px;
   left: -8px;
   position: absolute;
-  border-top: 8px solid #d9cfcf;
+  border-top: 8px solid #fff;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
 }

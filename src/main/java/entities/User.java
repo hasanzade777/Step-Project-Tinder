@@ -1,14 +1,12 @@
 package entities;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class User implements Identifiable {
     private long id;
@@ -60,11 +58,11 @@ public class User implements Identifiable {
     }
 
     public String getUsername() {
-        return username;
+        return name.concat(" ").concat(surname);
     }
 
     public String getFullName() {
-        return String.join(" ", name, surname);
+        return name.concat(" ").concat(surname);
     }
 
     public String getJob() {
@@ -73,7 +71,7 @@ public class User implements Identifiable {
 
     public String getLastActiveTime() {
         return DurationFormatUtils.formatDurationWords(Duration.ofMillis(
-                ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now())).toMillis(),
+                        ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now())).toMillis(),
                 true, true) + " ago";
     }
 
@@ -88,8 +86,7 @@ public class User implements Identifiable {
                     rs.getString("password"),
                     rs.getString("profile_pic_link"),
                     rs.getTimestamp("last_login_date_time").toLocalDateTime());
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

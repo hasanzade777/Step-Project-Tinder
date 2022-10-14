@@ -26,13 +26,12 @@ public class DBController {
         return us.get(emailAddress, password);
     }
 
-    public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f){
+    public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) {
         List<A> data = new ArrayList<>();
         while (true) {
             try {
                 if (!result.next()) break;
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
             A p = f.apply(result);
@@ -50,11 +49,10 @@ public class DBController {
         us.updateLastLoginDateTime(id);
     }
 
-    public static <A> A remapResult(ResultSet result, Function<ResultSet, A> f){
+    public static <A> A remapResult(ResultSet result, Function<ResultSet, A> f) {
         try {
             result.next();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return f.apply(result);

@@ -45,7 +45,7 @@ public class LikedUsersShowServlet extends HttpServlet {
         }
         Map<String, Object> data = new HashMap<>();
         data.put("usersLiked", usersLiked);
-        try (PrintWriter pw = resp.getWriter()){
+        try (PrintWriter pw = resp.getWriter()) {
             templ.process(data, pw);
         } catch (TemplateException e) {
             throw new RuntimeException(e);

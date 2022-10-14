@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
-
 // http://localhost:8080/login
 public class LoginServlet extends HttpServlet {
 
@@ -46,8 +44,7 @@ public class LoginServlet extends HttpServlet {
         Optional<User> userOpt = dbc.getUser(inputEmail, inputPassword);
         if (userOpt.isEmpty()) {
             resp.sendRedirect("/login"); //wrong username or password message to be added
-        }
-        else {
+        } else {
             User userLoggedIn = userOpt.get();
             long userLoggedInId = userLoggedIn.getId();
             dbc.updateLastLogin(userLoggedInId);

@@ -23,7 +23,7 @@ public class LikePageServlet extends HttpServlet {
     private DBController dbc;
 
     @Override
-    public void init(){
+    public void init() {
         dbc = (DBController) getServletContext().getAttribute("DBController");
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
         conf.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
@@ -50,11 +50,9 @@ public class LikePageServlet extends HttpServlet {
             try (PrintWriter pw = resp.getWriter()) {
                 templ.process(Map.of("user", user), pw);
             }
-        }
-        catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             resp.sendRedirect("/liked");
-        }
-        catch (TemplateException e) {
+        } catch (TemplateException e) {
             throw new RuntimeException(e);
         }
     }

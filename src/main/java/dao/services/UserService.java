@@ -4,9 +4,9 @@ import dao.dao.DaoSql;
 import entities.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import lombok.SneakyThrows;
 
 public class UserService {
     private DaoSql<User> dao;
@@ -27,14 +27,13 @@ public class UserService {
         return dao.getAll();
     }
 
+    @SneakyThrows
     public void updateLastLoginDateTime(long id) {
         Connection conn = dao.getConn();
         String SQL = "UPDATE users SET last_login_date_time = NOW() WHERE id = ?";
         try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
             psttm.setLong(1, id);
             psttm.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 }

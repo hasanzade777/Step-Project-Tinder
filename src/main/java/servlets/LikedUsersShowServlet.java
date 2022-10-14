@@ -41,7 +41,7 @@ public class LikedUsersShowServlet extends HttpServlet {
         HttpSession session = req.getSession();
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
         if (usersLiked.isEmpty()) {
-            resp.sendRedirect("/like-page");
+            resp.sendRedirect("/users");
         }
         Map<String, Object> data = new HashMap<>();
         data.put("usersLiked", usersLiked);

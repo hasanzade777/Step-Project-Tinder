@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-// http://localhost:8080/like-page
+// http://localhost:8080/users
 public class LikePageServlet extends HttpServlet {
     private Template templ;
     private DBController dbc;

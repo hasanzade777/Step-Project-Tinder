@@ -22,13 +22,13 @@ public class LoginServlet extends HttpServlet {
     private DBController dbc;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         this.dbc = (DBController) getServletContext().getAttribute("DBController");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile();
+        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile().substring(1);
         List<String> lines = Files.readAllLines(Path.of(fileName));
         try (PrintWriter pw = resp.getWriter()) {
             for (String line : lines) {
@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String inputEmail = req.getParameter("inputEmail");
         String inputPassword = req.getParameter("inputPassword");
         Optional<User> userOpt = dbc.getUser(inputEmail, inputPassword);

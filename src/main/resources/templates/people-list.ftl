@@ -32,12 +32,12 @@
                             <tr>
                                 <td width="10">
                                     <div class="avatar-img">
-                                        <img class="img-circle" src=${user.profilePicLink} />  
+                                        <img class="img-circle" src=${user.profilePicLink} />
                                     </div>
 
                                 </td>
                                 <td class="align-middle">
-                                    ${user.fullName}
+                                    ${user.username}
                                 </td>
                                 <td class="align-middle">
                                     ${user.job}

@@ -32,23 +32,29 @@ public class LikeFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
         if (session.isNew()) {
-            List<User> allUsers = dbc.getAllUsers();
-            long userLoggedInId = Integer.parseInt(Arrays.stream(req.getCookies())
+            List<User> usersNotChecked = dbc.getAllUsers();
+            long userLoggedInId =  Long.parseLong(Arrays.stream(req.getCookies())
                     .filter(cookie -> cookie.getName().equals("c_user"))
                     .findAny()
-                    .get().getValue());
-            allUsers.removeIf(user -> user.getId() == userLoggedInId);
-            if (allUsers.isEmpty()) {
+                    .get()
+                    .getValue());
+            usersNotChecked.removeIf(user -> user.getId() == userLoggedInId);
+            if (usersNotChecked.isEmpty()) {
                 resp.setContentType("text/html");
                 try (PrintWriter pw = resp.getWriter()) {
-                    pw.println("No user to display<br>");
+                    pw.println("No user to display.<br>");
                 }
             }
-            session.setAttribute("usersNotChecked", allUsers);
-            session.setAttribute("usersLiked", new ArrayList<User>());
-            session.setAttribute("userDisplayIndex", 0);
+            else {
+                session.setAttribute("usersNotChecked", usersNotChecked);
+                session.setAttribute("usersLiked", new ArrayList<User>());
+                session.setAttribute("userDisplayIndex", 0);
+                chain.doFilter(request, response);
+            }
         }
-        chain.doFilter(request, response);
+        else {
+            chain.doFilter(request, response);
+        }
     }
 
     @Override

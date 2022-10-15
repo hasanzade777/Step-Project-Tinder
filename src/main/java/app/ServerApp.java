@@ -3,9 +3,12 @@ package app;
 import filters.LikeFilter;
 import filters.LoginFilter;
 import java.util.EnumSet;
+import java.util.Objects;
 import javax.servlet.DispatcherType;
+import javax.servlet.http.HttpServlet;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.session.SessionHandler;
@@ -19,8 +22,6 @@ public class ServerApp {
         try {
             Server server = new Server(8080);
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-            ResourceHandler resourceHandler = new ResourceHandler();
-            resourceHandler.setResourceBase("");
             handler.setSessionHandler(new SessionHandler());
             //servlets
             handler.addServlet(LoginServlet.class, "/login");
@@ -39,8 +40,7 @@ public class ServerApp {
             handler.setInitParameter("dbName", "dsq4s45dhepp6");
             handler.setInitParameter("dbUser", "vwktrcuywyclvw");
             handler.setInitParameter("dbPassword", "4cf47f217fec1d3ce6628d934794f6ad4bef3a2e62fb3ef66f13580b3e461e0f");
-            HandlerList handlerList = new HandlerList(handler, resourceHandler);
-            server.setHandler(handlerList);
+            server.setHandler(handler);
             server.start();
             server.join();
         } catch (Exception e) {

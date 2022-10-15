@@ -35,6 +35,8 @@ public class User implements Identifiable {
         this.emailAddress = emailAddress;
         this.password = password;
     }
+    public User(){
+    }
 
     @Override
     public long getId() {

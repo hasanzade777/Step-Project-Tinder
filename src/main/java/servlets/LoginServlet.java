@@ -29,8 +29,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html"))
-                .getFile()
-                .substring(1);
+                .getFile();
         try (PrintWriter pw = resp.getWriter()) {
             Files.readAllLines(Path.of(fileName)).forEach(pw::println);
         }

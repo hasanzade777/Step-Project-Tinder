@@ -26,6 +26,15 @@ public class DBController {
         return us.get(emailAddress, password);
     }
 
+    public List<User> getAllUsers() {
+        return us.getAll();
+    }
+
+    public boolean loginIsCorrect(String emailAddress, String password) {
+        return getAllUsers().stream().anyMatch(user -> user.getEmailAddress().equals(emailAddress) &&
+                                                user.getPassword().equals(password));
+    }
+
     public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) {
         List<A> data = new ArrayList<>();
         while (true) {
@@ -39,11 +48,6 @@ public class DBController {
         }
         return data;
     }
-
-    public List<User> getAllUsers() {
-        return us.getAll();
-    }
-
 
     public void updateLastLogin(long id) {
         us.updateLastLoginDateTime(id);

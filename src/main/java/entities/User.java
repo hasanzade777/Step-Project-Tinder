@@ -6,6 +6,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class User implements Identifiable {
@@ -58,21 +60,20 @@ public class User implements Identifiable {
     }
 
     public String getUsername() {
-        return name.concat(" ").concat(surname);
+        return username;
     }
 
-    public String getFullName() {
-        return name.concat(" ").concat(surname);
-    }
 
     public String getJob() {
         return job;
     }
 
     public String getLastActiveTime() {
-        return DurationFormatUtils.formatDurationWords(Duration.ofMillis(
+        String durationInWords = DurationFormatUtils.formatDurationWords(Duration.ofMillis(
                         ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now())).toMillis(),
-                true, true) + " ago";
+                true, true);
+        String[] firstUnit = durationInWords.split(" ");
+        return String.format("%s %s ago", firstUnit[0], firstUnit[1]);
     }
 
     public static User getFromResultSet(ResultSet rs) {

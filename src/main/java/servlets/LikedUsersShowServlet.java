@@ -26,7 +26,7 @@ public class LikedUsersShowServlet extends HttpServlet {
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
         conf.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
         try {
-            conf.setDirectoryForTemplateLoading(new File("src/main/resources/templates"));
+            conf.setDirectoryForTemplateLoading(new File(getClass().getClassLoader().getResource("templates").getPath()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

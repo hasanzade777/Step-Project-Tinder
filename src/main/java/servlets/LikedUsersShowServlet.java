@@ -42,7 +42,10 @@ public class LikedUsersShowServlet extends HttpServlet {
         HttpSession session = req.getSession();
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
         if (usersLiked.isEmpty()) {
-            resp.sendRedirect("/users");
+             resp.setContentType("text/html");
+            try (PrintWriter pw = resp.getWriter()) {
+                pw.println("There is no user liked.<br>");
+            }
         }
         Map<String, Object> data = new HashMap<>();
         data.put("usersLiked", usersLiked);

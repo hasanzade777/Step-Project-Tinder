@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LoginFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -26,8 +26,7 @@ public class LoginFilter implements Filter {
         if (cookiesOpt.isEmpty() || Arrays.stream(cookiesOpt.get()).noneMatch(cookie -> cookie.getName().equals("c_user"))) {
             HttpServletResponse resp = (HttpServletResponse) response;
             resp.sendRedirect("/login");
-        }
-        else {
+        } else {
             chain.doFilter(request, response);
         }
     }

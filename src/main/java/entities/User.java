@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class User implements Identifiable {
-    private long id;
+    private Long id;
     private String name;
     private String surname;
     private String job;
@@ -19,7 +19,7 @@ public class User implements Identifiable {
     private String profilePicLink;
     private LocalDateTime lastLoginDateTime;
 
-    public User(long id, String name, String surname, String job, String emailAddress, String username, String password, String profilePicLink, LocalDateTime lastLoginDateTime) {
+    public User(Long id, String name, String surname, String job, String emailAddress, String username, String password, String profilePicLink, LocalDateTime lastLoginDateTime) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -35,11 +35,12 @@ public class User implements Identifiable {
         this.emailAddress = emailAddress;
         this.password = password;
     }
-    public User(){
+
+    public User() {
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

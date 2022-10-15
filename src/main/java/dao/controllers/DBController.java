@@ -2,8 +2,8 @@ package dao.controllers;
 
 import dao.dao.DaoSqlMessage;
 import dao.dao.DaoSqlUser;
-import dao.services.MessageService;
-import dao.services.UserService;
+import dao.services.impl.MessageServiceImpl;
+import dao.services.impl.UserServiceImpl;
 import entities.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,12 +14,12 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class DBController {
-    private UserService us;
-    private MessageService ms;
+    private UserServiceImpl us;
+    private MessageServiceImpl ms;
 
     public DBController(Connection conn) {
-        this.us = new UserService(new DaoSqlUser(conn));
-        this.ms = new MessageService(new DaoSqlMessage(conn));
+        this.us = new UserServiceImpl(new DaoSqlUser(conn));
+        this.ms = new MessageServiceImpl(new DaoSqlMessage(conn));
     }
 
     public Optional<User> getUser(String emailAddress, String password) {
@@ -45,7 +45,7 @@ public class DBController {
     }
 
 
-    public void updateLastLogin(long id) {
+    public void updateLastLogin(Long id) {
         us.updateLastLoginDateTime(id);
     }
 

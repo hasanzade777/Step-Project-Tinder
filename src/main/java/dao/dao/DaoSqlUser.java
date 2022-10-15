@@ -18,9 +18,10 @@ public class DaoSqlUser extends DaoSql<User> {
     }
 
     @Override
-    public Optional<User> get(long id) {
-        throw new RuntimeException();
+    public Optional<User> get(Long id) {
+        return Optional.empty();
     }
+
 
     @SneakyThrows
     @Override

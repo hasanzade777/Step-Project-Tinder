@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile().substring(1);
+        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile();
         List<String> lines = Files.readAllLines(Path.of(fileName));
         try (PrintWriter pw = resp.getWriter()) {
             for (String line : lines) {

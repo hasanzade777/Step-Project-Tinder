@@ -3,13 +3,13 @@ package entities;
 import java.time.LocalDateTime;
 
 public class Message implements Identifiable {
-    private long id;
-    private long fromId;
-    private long toId;
+    private Long id;
+    private Long fromId;
+    private Long toId;
     private String message;
     private LocalDateTime dateTimeSent;
 
-    public Message(long id, long fromId, long toId, String message, LocalDateTime dateTimeSent) {
+    public Message(Long id, Long fromId, Long toId, String message, LocalDateTime dateTimeSent) {
         this.id = id;
         this.fromId = fromId;
         this.toId = toId;
@@ -19,7 +19,7 @@ public class Message implements Identifiable {
     public Message(){}
 
     @Override
-    public long getId() {
+    public Long getId() {
         throw new RuntimeException();
     }
 }

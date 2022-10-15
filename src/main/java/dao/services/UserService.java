@@ -30,7 +30,7 @@ public class UserService {
     @SneakyThrows
     public void updateLastLoginDateTime(long id) {
         Connection conn = dao.getConn();
-        String SQL = "UPDATE users SET last_login_date_time = NOW() WHERE id = ?";
+        String SQL = "UPDATE users SET last_login_date_time = NOW()::timestamp WHERE id = ?";
         try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
             psttm.setLong(1, id);
             psttm.executeUpdate();

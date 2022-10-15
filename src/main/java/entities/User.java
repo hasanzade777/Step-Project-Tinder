@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class User implements Identifiable {
 
     public String getLastActiveTime() {
         String durationInWords = DurationFormatUtils.formatDurationWords(Duration.ofMillis(
-                        ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now())).toMillis(),
+                ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now(ZoneId.systemDefault()))).toMillis(),
                 true, true);
         String[] firstUnit = durationInWords.split(" ");
         return String.format("%s %s ago", firstUnit[0], firstUnit[1]);

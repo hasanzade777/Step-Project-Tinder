@@ -14,7 +14,9 @@ import java.util.Objects;
 public class BootStrapServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/css/bootstrap.min.css")).getFile().substring(1);
+        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/css/bootstrap.min.css"))
+                .getFile()
+                .substring(1);
         List<String> lines = Files.readAllLines(Path.of(fileName));
         try (PrintWriter pw = resp.getWriter()) {
             for (String line : lines) {

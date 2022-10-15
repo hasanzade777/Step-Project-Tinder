@@ -16,6 +16,7 @@ public class ServerApp {
             Server server = new Server(8080);
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             handler.addServlet(LoginServlet.class, "/login");
+            handler.addServlet(LoginServlet.class, "/");
             handler.addServlet(LikePageServlet.class, "/users");
             handler.addServlet(LikedUsersShowServlet.class, "/liked");
             handler.addServlet(BootStrapServlet.class, "/css/bootstrap.min.css");

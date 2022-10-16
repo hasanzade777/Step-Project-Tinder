@@ -6,7 +6,6 @@ import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import servlets.*;
 
@@ -15,9 +14,9 @@ public class ServerApp {
         try {
             Server server = new Server(8080);
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-            handler.addServlet(LoginServlet.class, "/login");
             handler.addServlet(LoginServlet.class, "/");
-            handler.addServlet(LikePageServlet.class, "/users");
+            handler.addServlet(LoginServlet.class, "/login");
+            handler.addServlet(UsersServlet.class, "/users");
             handler.addServlet(LikedUsersShowServlet.class, "/liked");
             handler.addServlet(BootStrapServlet.class, "/css/bootstrap.min.css");
             handler.addServlet(StyleServlet.class, "/css/style.css");
@@ -29,6 +28,7 @@ public class ServerApp {
             //context-listener
             handler.addEventListener(new MyServletContextListener());
             //context-params
+            //database credentials
             handler.setInitParameter("dbHost", "ec2-52-203-118-49.compute-1.amazonaws.com");
             handler.setInitParameter("dbPort", "5432");
             handler.setInitParameter("dbName", "dsq4s45dhepp6");

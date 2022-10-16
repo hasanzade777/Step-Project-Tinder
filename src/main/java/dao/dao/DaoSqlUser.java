@@ -18,8 +18,16 @@ public class DaoSqlUser extends DaoSql<User> {
     }
 
     @Override
+    @SneakyThrows
     public Optional<User> get(long id) {
-        throw new RuntimeException();
+        Connection conn = getConn();
+        String SQL = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
+            psttm.setLong(1, id);
+            ResultSet rs = psttm.executeQuery();
+            return rs.isBeforeFirst() ?
+                    Optional.of(DBController.remapResult(rs, User::getFromResultSet)) : Optional.empty();
+        }
     }
 
     @SneakyThrows

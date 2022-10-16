@@ -69,9 +69,12 @@ public class User implements Identifiable {
     }
 
     public String getInactiveTimePeriod() {
-        String durationInWords = DurationFormatUtils.formatDurationWords(Duration.ofMillis(
-                ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now(ZoneId.systemDefault()))).toMillis(),
-                true, true);
+        String durationInWords = DurationFormatUtils.formatDurationWords(Math.abs(
+                        Duration.between(
+                                lastLoginDateTime,
+                                LocalDateTime.now()).toMillis()),
+                true,
+                true);
         String[] firstUnit = durationInWords.split(" ");
         return String.format("%s %s", firstUnit[0], firstUnit[1]);
     }

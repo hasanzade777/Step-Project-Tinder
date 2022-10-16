@@ -30,8 +30,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html"))
-                .getFile()
-                .substring(1);
+                .getFile();
         try (PrintWriter pw = resp.getWriter()) {
             Files.readAllLines(Path.of(fileName)).forEach(pw::println);
         }
@@ -46,18 +45,6 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("/login"); //wrong username or password message to be added
         }
         else {
-            //remove the login cookie if present before
-            Optional<Cookie[]> cookiesOpt = Optional.ofNullable(req.getCookies());
-            if (cookiesOpt.isPresent()) {
-                Cookie[] cookies = cookiesOpt.get();
-                Arrays.stream(cookies)
-                        .filter(cookie -> cookie.getName().equals("c_user"))
-                        .findAny()
-                        .ifPresent(cookie -> {
-                            cookie.setMaxAge(0);
-                            resp.addCookie(cookie);
-                        });
-            }
             req.getSession().invalidate();
             User userLoggedIn = dbc.getUser(inputEmail, inputPassword).get();
             long userLoggedInId = userLoggedIn.getId();

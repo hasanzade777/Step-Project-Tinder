@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
@@ -69,12 +68,12 @@ public class User implements Identifiable {
         return job;
     }
 
-    public String getLastActiveTime() {
+    public String getInactiveTimePeriod() {
         String durationInWords = DurationFormatUtils.formatDurationWords(Duration.ofMillis(
                 ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now(ZoneId.systemDefault()))).toMillis(),
                 true, true);
         String[] firstUnit = durationInWords.split(" ");
-        return String.format("%s %s ago", firstUnit[0], firstUnit[1]);
+        return String.format("%s %s", firstUnit[0], firstUnit[1]);
     }
 
     public static User getFromResultSet(ResultSet rs) {
@@ -88,7 +87,8 @@ public class User implements Identifiable {
                     rs.getString("password"),
                     rs.getString("profile_pic_link"),
                     rs.getTimestamp("last_login_date_time").toLocalDateTime());
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

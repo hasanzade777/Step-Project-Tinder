@@ -24,6 +24,8 @@ public class ServerApp {
             handler.addServlet(BootStrapServlet.class, "/css/bootstrap.min.css");
             handler.addServlet(StyleServlet.class, "/css/style.css");
             handler.addServlet(MessageServlet.class,"/message/*");
+            handler.addServlet(BootStrapServlet.class,"/message/css/bootstrap.min.css");
+            handler.addServlet(StyleServlet.class, "/message/css/style.css");
             //filters
             handler.addFilter(LoginFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(LoginFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));

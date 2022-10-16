@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2504/2504943.png">
 
     <title>Chat</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -49,73 +50,26 @@
                     <div class="col-md-12 chats pt-3 pl-2 pr-3 pb-3">
                         <ul class="p-0">
                             <#list messagesByMe as messagesByMe>
-                            <li class="send-msg float-right mb-2">
-                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                    ${messageByMe.messages}
-                                </p>
-                            </li>
+                                <#if messagesByMe.toId == toId>
+                                    <li class="send-msg float-right mb-2">
+                                        <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
+                                            ${messageByMe.message}
+                                        </p>
+                                    </li>
+                                <#else>
+                                    <li class="receive-msg float-left mb-2">
+                                        <div class="sender-img">
+                                            <img src=${profileImgUrl} class="float-left" width="70" height="70">
+                                        </div>
+                                        <div class="receive-msg-desc float-left ml-2">
+                                            <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
+                                                ${messagesByMe.message}
+                                            </p>
+                                            <span class="receive-msg-time">${messagesByMe.dateTime()}</span>
+                                        </div>
+                                    </li>
+                                </#if>
                             </#list>
-                            <#list messagesToMe as messagesTome>
-                            <li class="receive-msg float-left mb-2">
-                                <div class="sender-img">
-                                    <img src=${profileImgUrl} class="float-left">
-                                </div>
-                                <div class="receive-msg-desc float-left ml-2">
-                                    <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
-                                        ${messagesToMe.messages}
-                                    </p>
-                                </div>
-                            </li>
-                            </#list>
-<#--                            <li class="send-msg float-right mb-2">-->
-<#--                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">-->
-<#--                                    nice <br>-->
-<#--                                    Are you fine ?-->
-<#--                                </p>-->
-<#--                            </li>-->
-<#--                            <li class="receive-msg float-left mb-2">-->
-<#--                                <div class="sender-img">-->
-<#--                                    <img src="http://nicesnippets.com/demo/image1.jpg" class="float-left">-->
-<#--                                </div>-->
-<#--                                <div class="receive-msg-desc float-left ml-2">-->
-<#--                                    <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">-->
-<#--                                        Yes always-->
-<#--                                    </p>-->
-<#--                                </div>-->
-<#--                            </li>-->
-<#--                            <li class="send-msg float-right mb-2">-->
-<#--                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">-->
-<#--                                    <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>-->
-<#--                                </p>-->
-<#--                            </li>-->
-<#--                            <li class="send-msg float-right mb-2">-->
-<#--                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">-->
-<#--                                    Byy-->
-<#--                                </p>-->
-<#--                                <span class="send-msg-time">1 min</span>-->
-<#--                            </li>-->
-<#--                            <li class="send-msg float-right mb-2">-->
-<#--                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">-->
-<#--                                    <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>-->
-<#--                                </p>-->
-<#--                            </li>-->
-<#--                            <li class="send-msg float-right mb-2">-->
-<#--                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">-->
-<#--                                    Byy-->
-<#--                                </p>-->
-<#--                                <span class="send-msg-time">1 min</span>-->
-<#--                            </li>-->
-<#--                            <li class="send-msg float-right mb-2">-->
-<#--                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">-->
-<#--                                    <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>-->
-<#--                                </p>-->
-<#--                            </li>-->
-<#--                            <li class="send-msg float-right mb-2">-->
-<#--                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">-->
-<#--                                    Byy-->
-<#--                                </p>-->
-<#--                                <span class="send-msg-time">1 min</span>-->
-<#--                            </li>-->
                         </ul>
                     </div>
                     <div class="col-md-12 p-2 msg-box border border-primary">

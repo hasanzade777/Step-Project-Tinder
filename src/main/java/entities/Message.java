@@ -8,6 +8,7 @@ import lombok.ToString;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -46,5 +47,8 @@ public class Message implements Identifiable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public String dateTime(){
+        return dateTimeSent.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 }

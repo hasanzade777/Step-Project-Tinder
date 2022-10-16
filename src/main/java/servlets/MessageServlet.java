@@ -15,7 +15,6 @@ import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import static freemarker.template.Configuration.VERSION_2_3_28;
@@ -41,25 +40,23 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println(req.getPathInfo().substring(1));
-        if (req.getPathInfo().substring(1).startsWith("3")) {
+        if (req.getPathInfo().substring(1).matches("[0-9]+")) {
             var allMessages = dbc.getAllMessages(Long.valueOf(req.getPathInfo().substring(1)));
             var user = dbc.getUserByID(Long.valueOf(req.getPathInfo().substring(1)));
             if (allMessages.isEmpty()) {
                 resp.sendRedirect("/users");
             }
+            System.out.println(allMessages);
             HashMap<String, Object> data = new HashMap<>();
-            data.put("messages", allMessages);
+            data.put("messagesByMe", allMessages);
             data.put("name", user.get().getFullName());
+            data.put("toId",user.get().getId());
             data.put("profileImgUrl", user.get().getProfilePicLink());
             try (PrintWriter pw = resp.getWriter()) {
                 template.process(data, pw);
             } catch (TemplateException e) {
+                System.out.println(template.getTemplateExceptionHandler());
                 throw new RuntimeException(e);
-            }
-        } else {
-            try (PrintWriter pw = resp.getWriter()) {
-                template.dump(pw);
             }
         }
     }

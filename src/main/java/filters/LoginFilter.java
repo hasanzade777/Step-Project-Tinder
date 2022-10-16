@@ -19,14 +19,23 @@ public class LoginFilter implements Filter {
 
     }
 
+    private boolean isHTTP(ServletRequest req, ServletResponse resp) {
+        return req instanceof HttpServletRequest &&
+                resp instanceof HttpServletResponse;
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        if (!isHTTP(request, response)) {
+            chain.doFilter(request, response);
+        }
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
         Optional<Cookie[]> cookiesOpt = Optional.ofNullable(req.getCookies());
         if (cookiesOpt.isEmpty() || Arrays.stream(cookiesOpt.get()).noneMatch(cookie -> cookie.getName().equals("c_user"))) {
-            HttpServletResponse resp = (HttpServletResponse) response;
             resp.sendRedirect("/login");
-        } else {
+        }
+        else {
             chain.doFilter(request, response);
         }
     }

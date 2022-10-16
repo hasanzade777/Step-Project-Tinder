@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class DaoSqlMessage extends DaoSql<Message> {
-
     public DaoSqlMessage(Connection conn) {
         super(conn);
     }

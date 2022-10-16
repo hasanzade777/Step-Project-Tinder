@@ -6,11 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,13 +38,13 @@ public class LoginServlet extends HttpServlet {
         String inputPassword = req.getParameter("inputPassword");
         boolean loginIsCorrect = dbc.loginIsCorrect(inputEmail, inputPassword);
         if (!loginIsCorrect) {
-            resp.sendRedirect("/login"); //wrong username or password message to be added
+            resp.sendRedirect("/login");
         }
         else {
             req.getSession().invalidate();
             User userLoggedIn = dbc.getUser(inputEmail, inputPassword).get();
             long userLoggedInId = userLoggedIn.getId();
-            dbc.updateLastLogin(userLoggedInId);
+            dbc.updateLastLoginDateTime(userLoggedInId);
             Cookie cookie = new Cookie("c_user", String.valueOf(userLoggedInId));
             cookie.setMaxAge(10 * 24 * 60 * 60); //10 days
             resp.addCookie(cookie);

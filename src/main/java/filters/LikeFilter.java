@@ -26,8 +26,16 @@ public class LikeFilter implements Filter {
         this.dbc = (DBController) filterConfig.getServletContext().getAttribute("DBController");
     }
 
+    private boolean isHTTP(ServletRequest req, ServletResponse resp) {
+        return req instanceof HttpServletRequest &&
+                resp instanceof HttpServletResponse;
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        if (!isHTTP(request, response)) {
+            chain.doFilter(request, response);
+        }
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
@@ -42,7 +50,7 @@ public class LikeFilter implements Filter {
             if (usersNotChecked.isEmpty()) {
                 resp.setContentType("text/html");
                 try (PrintWriter pw = resp.getWriter()) {
-                    pw.println("No user to display.<br>");
+                    pw.println("There is no user to display.<br>");
                 }
             }
             else {

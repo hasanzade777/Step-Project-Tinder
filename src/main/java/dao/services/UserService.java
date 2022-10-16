@@ -15,24 +15,20 @@ public class UserService {
         this.dao = dao;
     }
 
-    public Optional<User> get(User user) {
-        return dao.get(user);
-    }
-
-    public Optional<User> get(String emailAddress, String password) {
+    public Optional<User> getUser(String emailAddress, String password) {
         return dao.get(new User(emailAddress, password));
     }
 
-    public List<User> getAll() {
+    public List<User> getAllUsers() {
         return dao.getAll();
     }
 
     @SneakyThrows
-    public void updateLastLoginDateTime(long id) {
+    public void updateLastLoginDateTime(long userId) {
         Connection conn = dao.getConn();
         String SQL = "UPDATE users SET last_login_date_time = NOW()::timestamp WHERE id = ?";
         try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
-            psttm.setLong(1, id);
+            psttm.setLong(1, userId);
             psttm.executeUpdate();
         }
     }

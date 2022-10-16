@@ -18,23 +18,20 @@ import javax.servlet.http.HttpSession;
 
 
 // http://localhost:8080/users
-public class LikePageServlet extends HttpServlet {
+public class UsersServlet extends HttpServlet {
     private Template templ;
     private DBController dbc;
 
     @Override
     public void init() {
-        dbc = (DBController) getServletContext().getAttribute("DBController");
+        this.dbc = (DBController) getServletContext().getAttribute("DBController");
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
         conf.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
         try {
             conf.setDirectoryForTemplateLoading(new File(getClass().getClassLoader().getResource("templates").getPath()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            this.templ = conf.getTemplate("like-page.ftl");
         }
-        try {
-            templ = conf.getTemplate("like-page.ftl");
-        } catch (IOException e) {
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -50,23 +47,25 @@ public class LikePageServlet extends HttpServlet {
             try (PrintWriter pw = resp.getWriter()) {
                 templ.process(Map.of("user", user), pw);
             }
-        } catch (IndexOutOfBoundsException e) {
+        }
+        catch (IndexOutOfBoundsException e) {
             resp.sendRedirect("/liked");
-        } catch (TemplateException e) {
+        }
+        catch (TemplateException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String preference = req.getParameter("button");
         HttpSession session = req.getSession();
-        int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
+        String preference = req.getParameter("button");
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
         User user = (User) session.getAttribute("userToDisplay");
         if (preference.equals("like")) {
             usersLiked.add(user);
         }
+        int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
         session.setAttribute("userDisplayIndex", ++userDisplayIndex);
         resp.sendRedirect("/users");
     }

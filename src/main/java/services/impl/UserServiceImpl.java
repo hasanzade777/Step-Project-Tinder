@@ -1,16 +1,20 @@
-package dao.services.impl;
+package services.impl;
 
 import dao.dao.DaoSql;
-import dao.services.UserService;
 import entities.User;
+import lombok.SneakyThrows;
+import services.UserService;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
-import lombok.SneakyThrows;
 
 public class UserServiceImpl implements UserService {
     private DaoSql<User> dao;
+
+    public UserServiceImpl() {
+    }
 
     public UserServiceImpl(DaoSql<User> dao) {
         this.dao = dao;
@@ -40,5 +44,10 @@ public class UserServiceImpl implements UserService {
             psttm.setLong(1, id);
             psttm.executeUpdate();
         }
+    }
+
+    @Override
+    public Optional<User> getUserByID(Long id) {
+        return dao.get(id);
     }
 }

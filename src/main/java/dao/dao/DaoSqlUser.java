@@ -2,6 +2,8 @@ package dao.dao;
 
 import dao.controllers.DBController;
 import entities.User;
+import lombok.SneakyThrows;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import lombok.SneakyThrows;
 
 public class DaoSqlUser extends DaoSql<User> {
 
@@ -17,9 +18,17 @@ public class DaoSqlUser extends DaoSql<User> {
         super(conn);
     }
 
+    @SneakyThrows
     @Override
     public Optional<User> get(Long id) {
-        return Optional.empty();
+        Connection conn = getConn();
+        String SQL = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
+            psttm.setLong(1, id);
+            ResultSet rs = psttm.executeQuery();
+            return rs.isBeforeFirst() ?
+                    Optional.of(DBController.remapResult(rs, User::getFromResultSet)) : Optional.empty();
+        }
     }
 
 

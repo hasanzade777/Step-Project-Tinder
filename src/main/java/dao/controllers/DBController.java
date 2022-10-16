@@ -2,9 +2,11 @@ package dao.controllers;
 
 import dao.dao.DaoSqlMessage;
 import dao.dao.DaoSqlUser;
-import dao.services.impl.MessageServiceImpl;
-import dao.services.impl.UserServiceImpl;
+import entities.Message;
 import entities.User;
+import services.impl.MessageServiceImpl;
+import services.impl.UserServiceImpl;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +26,14 @@ public class DBController {
 
     public Optional<User> getUser(String emailAddress, String password) {
         return us.get(emailAddress, password);
+    }
+
+    public List<Message> getAllMessages(Long id) {
+        return ms.getMessages(id);
+    }
+
+    public Optional<User> getUserByID(Long id) {
+        return us.getUserByID(id);
     }
 
     public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) {

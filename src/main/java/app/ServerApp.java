@@ -4,15 +4,12 @@ import filters.LikeFilter;
 import filters.LoginFilter;
 import java.util.EnumSet;
 import javax.servlet.DispatcherType;
+
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import servlets.BootStrapServlet;
-import servlets.LikePageServlet;
-import servlets.LikedUsersShowServlet;
-import servlets.LoginServlet;
-import servlets.StyleServlet;
+import servlets.*;
 
 public class ServerApp {
     public static void main(String[] args) {
@@ -26,9 +23,11 @@ public class ServerApp {
             handler.addServlet(LikedUsersShowServlet.class, "/liked");
             handler.addServlet(BootStrapServlet.class, "/css/bootstrap.min.css");
             handler.addServlet(StyleServlet.class, "/css/style.css");
+            handler.addServlet(MessageServlet.class,"/message/*");
             //filters
             handler.addFilter(LoginFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(LoginFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class,"/message",EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(LikeFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(LikeFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
             //context-listener

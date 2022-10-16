@@ -2,6 +2,11 @@ package servlets;
 
 import dao.controllers.DBController;
 import entities.User;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -9,10 +14,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 // http://localhost:8080/login
@@ -27,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile();
+        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile().substring(1);
         List<String> lines = Files.readAllLines(Path.of(fileName));
         try (PrintWriter pw = resp.getWriter()) {
             for (String line : lines) {

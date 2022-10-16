@@ -17,12 +17,13 @@ public class MyServletContextListener implements ServletContextListener {
         String dbName = sc.getInitParameter("dbName");
         String dbUser = sc.getInitParameter("dbUser");
         String dbPassword = sc.getInitParameter("dbPassword");
-        String url = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName);
+        String dbUrl = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName);
         try {
-            Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
             DBController dbc = new DBController(conn);
             sc.setAttribute("DBController", dbc);
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -32,7 +33,8 @@ public class MyServletContextListener implements ServletContextListener {
         Connection conn = (Connection) sce.getServletContext().getAttribute("dbConnection");
         try {
             conn.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

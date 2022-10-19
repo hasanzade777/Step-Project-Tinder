@@ -27,12 +27,12 @@
                     <br>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <form action="/like-page" method="post">
+                    <form action="/users" method="post">
                     <button name="button" value="dislike" class="btn btn-outline-danger btn-block"><span class="fa fa-times"></span> Dislike</button>
                     </form>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <form action="/like-page" method="post">
+                    <form action="/users" method="post">
                     <button name="button" value="like" class="btn btn-outline-success btn-block"><span class="fa fa-heart"></span> Like</button>
                     </form>
                 </div>

@@ -32,7 +32,7 @@
                             <tr>
                                 <td width="10">
                                     <div class="avatar-img">
-                                        <img class="img-circle" src=${user.profilePicLink} />  
+                                        <img class="img-circle" src=${user.profilePicLink} />
                                     </div>
 
                                 </td>

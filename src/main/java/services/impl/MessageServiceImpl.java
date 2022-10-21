@@ -2,11 +2,10 @@ package services.impl;
 
 import dao.dao.DaoSqlMessage;
 import entities.Message;
-import services.MessageService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import services.MessageService;
 
 public class MessageServiceImpl implements MessageService {
     private DaoSqlMessage dao;
@@ -26,6 +25,13 @@ public class MessageServiceImpl implements MessageService {
         List<Message> listOfMessages = new ArrayList<>();
         listOfMessages.addAll(messagesByMe);
         listOfMessages.addAll(messagesToMe);
-        return listOfMessages.stream().sorted((l1, l2) -> (int) (l1.getId() - l2.getId())).collect(Collectors.toList());
+//        listOfMessages = listOfMessages.stream().sorted((l1, l2) -> (int) (l1.getId() - l2.getId())).collect(Collectors.toList());
+        return listOfMessages.isEmpty() ? new ArrayList<>() : listOfMessages.stream().sorted((l1, l2) -> (int) (l1.getId() - l2.getId())).collect(Collectors.toList());
+//        return listOfMessages.isEmpty() ? new ArrayList<>() : listOfMessages;
+    }
+
+    @Override
+    public void addMessage(Long fromId, Long toId, String message) {
+        dao.addMessage(fromId, toId, message);
     }
 }

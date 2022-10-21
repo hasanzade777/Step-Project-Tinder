@@ -2,13 +2,9 @@ package servlets;
 
 import dao.controllers.DBController;
 import freemarker.template.Configuration;
+import static freemarker.template.Configuration.VERSION_2_3_28;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,13 +12,16 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Objects;
-
-import static freemarker.template.Configuration.VERSION_2_3_28;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class MessageServlet extends HttpServlet {
     private Template template;
 
     private DBController dbc;
+    private static HashMap<String, Object> data = new HashMap<>();
 
     @Override
     public void init() {
@@ -47,10 +46,10 @@ public class MessageServlet extends HttpServlet {
                 resp.sendRedirect("/users");
             }
             System.out.println(allMessages);
-            HashMap<String, Object> data = new HashMap<>();
+            data.clear();
             data.put("messagesByMe", allMessages);
             data.put("name", user.get().getFullName());
-            data.put("toId",user.get().getId());
+            data.put("toId", user.get().getId());
             data.put("profileImgUrl", user.get().getProfilePicLink());
             try (PrintWriter pw = resp.getWriter()) {
                 template.process(data, pw);
@@ -63,6 +62,9 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        log("Sending message");
+        var user = dbc.getUserByID(Long.valueOf(req.getPathInfo().substring(1)));
+        var messageContent = req.getParameter("send-message");
+        dbc.addMessage(user.get().getId(), Long.valueOf(data.get("toId").toString()), messageContent);
     }
 }

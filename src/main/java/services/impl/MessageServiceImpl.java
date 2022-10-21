@@ -2,10 +2,11 @@ package services.impl;
 
 import dao.dao.DaoSqlMessage;
 import entities.Message;
+import services.MessageService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import services.MessageService;
 
 public class MessageServiceImpl implements MessageService {
     private DaoSqlMessage dao;
@@ -19,7 +20,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessages(Long fromID) {
-        var toID = dao.toWhoID(fromID);
+        var toID = toWhoID(fromID);
+        if (toID.equals(-1L)) {
+            return new ArrayList<>();
+        }
         var messagesByMe = dao.getMessagesFrom(fromID, toID);
         var messagesToMe = dao.getMessagesFrom(toID, fromID);
         List<Message> listOfMessages = new ArrayList<>();
@@ -34,4 +38,10 @@ public class MessageServiceImpl implements MessageService {
     public void addMessage(Long fromId, Long toId, String message) {
         dao.addMessage(fromId, toId, message);
     }
+
+    @Override
+    public Long toWhoID(Long fromId) {
+        return dao.toWhoID(fromId);
+    }
+
 }

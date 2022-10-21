@@ -4,6 +4,9 @@ import dao.dao.DaoSqlMessage;
 import dao.dao.DaoSqlUser;
 import entities.Message;
 import entities.User;
+import services.impl.MessageServiceImpl;
+import services.impl.UserServiceImpl;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import services.impl.MessageServiceImpl;
-import services.impl.UserServiceImpl;
 
 public class DBController {
     private UserServiceImpl us;
@@ -41,6 +42,10 @@ public class DBController {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public Long getWhoID(Long fromId) {
+        return ms.toWhoID(fromId);
     }
 
     public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) {

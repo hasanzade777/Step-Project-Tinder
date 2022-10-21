@@ -59,7 +59,7 @@
                                 <#else>
                                     <li class="receive-msg float-left mb-2">
                                         <div class="sender-img">
-                                            <img src=${profileImgUrl} class="float-left" width="70" height="70">
+                                            <img src=${profileImgUrl} class="float-left">
                                         </div>
                                         <div class="receive-msg-desc float-left ml-2">
                                             <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">

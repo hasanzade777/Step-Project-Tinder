@@ -2,9 +2,12 @@ package servlets;
 
 import dao.controllers.DBController;
 import freemarker.template.Configuration;
-import static freemarker.template.Configuration.VERSION_2_3_28;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,10 +15,8 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Objects;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import static freemarker.template.Configuration.VERSION_2_3_28;
 
 public class MessageServlet extends HttpServlet {
     private Template template;
@@ -54,17 +55,17 @@ public class MessageServlet extends HttpServlet {
             try (PrintWriter pw = resp.getWriter()) {
                 template.process(data, pw);
             } catch (TemplateException e) {
-                System.out.println(template.getTemplateExceptionHandler());
-                throw new RuntimeException(e);
+                throw new RuntimeException(e.getMessage());
             }
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log("Sending message");
         var user = dbc.getUserByID(Long.valueOf(req.getPathInfo().substring(1)));
         var messageContent = req.getParameter("send-message");
-        dbc.addMessage(user.get().getId(), Long.valueOf(data.get("toId").toString()), messageContent);
+        dbc.addMessage(user.get().getId(), dbc.getWhoID(user.get().getId()), messageContent);
+        resp.sendRedirect("/message/" + user.get().getId().toString());
     }
 }

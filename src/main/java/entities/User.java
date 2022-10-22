@@ -5,11 +5,18 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class User implements Identifiable {
     private Long id;
     private String name;
@@ -41,45 +48,21 @@ public class User implements Identifiable {
     public User() {
     }
 
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public String getPassword() {
-        return password;
+    public String getFullName() {
+        return String.format("%s %s", name, surname);
     }
 
     public LocalDate getLastLoginDate() {
         return lastLoginDateTime.toLocalDate();
     }
 
-    public String getProfilePicLink() {
-        return profilePicLink;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-
-    public String getJob() {
-        return job;
-    }
-
     public String getInactiveTimePeriod() {
-        String durationInWords = DurationFormatUtils.formatDurationWords(Math.abs(
-                        Duration.between(
-                                lastLoginDateTime,
-                                LocalDateTime.now()).toMillis()),
+        String durationInWords = DurationFormatUtils.formatDurationWords(
+                Math.abs(Duration.between(lastLoginDateTime, LocalDateTime.now()).toMillis()),
                 true,
                 true);
-        String[] firstUnit = durationInWords.split(" ");
-        return String.format("%s %s", firstUnit[0], firstUnit[1]);
+        String[] words = durationInWords.split(" ");
+        return String.format("%s %s", words[0], words[1]);
     }
 
     public static User getFromResultSet(ResultSet rs) {

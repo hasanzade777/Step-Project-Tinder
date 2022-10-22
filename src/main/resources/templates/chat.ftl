@@ -55,6 +55,7 @@
                                         <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
                                             ${message.message}
                                         </p>
+                                        <span class="receive-msg-time">${message.sentWhen()}</span>
                                     </li>
                                 <#else>
                                     <li class="receive-msg float-left mb-2">

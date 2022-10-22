@@ -15,7 +15,7 @@ public class StyleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/css/style.css"))
-                .getFile();
+                .getFile().substring(1);
         try (PrintWriter pw = resp.getWriter()) {
             Files.readAllLines(Path.of(fileName)).forEach(pw::println);
         }

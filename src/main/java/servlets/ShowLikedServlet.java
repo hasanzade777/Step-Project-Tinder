@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 // http://localhost:8080/liked
-public class LikedUsersShowServlet extends HttpServlet {
+public class ShowLikedServlet extends HttpServlet {
 
     private Template templ;
 

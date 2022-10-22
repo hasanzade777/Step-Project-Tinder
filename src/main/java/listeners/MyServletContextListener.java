@@ -21,18 +21,20 @@ public class MyServletContextListener implements ServletContextListener {
         try {
             Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
             DBController dbc = new DBController(conn);
-            sc.setAttribute("DBController", dbc);
-        } catch (SQLException e) {
+            sc.setAttribute("dbc", dbc);
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        Connection conn = (Connection) sce.getServletContext().getAttribute("dbConnection");
+        Connection conn = (Connection) sce.getServletContext().getAttribute("dbc");
         try {
             conn.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

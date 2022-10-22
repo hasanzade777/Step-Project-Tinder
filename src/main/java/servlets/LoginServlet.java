@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() {
-        this.dbc = (DBController) getServletContext().getAttribute("DBController");
+        this.dbc = (DBController) getServletContext().getAttribute("dbc");
     }
 
     @Override

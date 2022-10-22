@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class LikeFilter implements Filter {
+public class UsersFilter implements Filter {
 
     private DBController dbc;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        this.dbc = (DBController) filterConfig.getServletContext().getAttribute("DBController");
+        this.dbc = (DBController) filterConfig.getServletContext().getAttribute("dbc");
     }
 
     @Override

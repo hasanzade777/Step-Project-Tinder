@@ -1,15 +1,13 @@
 package dao.controllers;
 
-import dao.dao.MessageDaoImpl;
-import dao.dao.UserDaoImpl;
+import dao.dao.impl.MessageDaoImpl;
+import dao.dao.impl.UserDaoImpl;
 import entities.Message;
 import entities.User;
 import services.MessageService;
 import services.UserService;
 import services.impl.MessageServiceImpl;
 import services.impl.UserServiceImpl;
-
-import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,9 +21,15 @@ public class DBController {
     private UserService us;
     private MessageService ms;
 
+
     public DBController(Connection conn) {
         this.us = new UserServiceImpl(new UserDaoImpl(conn));
         this.ms = new MessageServiceImpl(new MessageDaoImpl(conn));
+    }
+
+
+    public Optional<User> getUser(Long id) {
+        return us.getUser(id);
     }
 
     public Optional<User> getUser(String emailAddress, String password) {
@@ -36,28 +40,16 @@ public class DBController {
         return us.getAllUsers();
     }
 
-    public boolean loginIsCorrect(String emailAddress, String password) {
-        return getUser(emailAddress, password).isPresent();
-    }
-
     public void updateLastLoginDateTime(long userId) {
         us.updateLastLoginDateTime(userId);
     }
 
-    public Optional<User> getUserById(Long id) {
-        return us.getUserByID(id);
-    }
-
-    public List<User> getAllUsers() {
-        return us.getAll();
-    }
-
-    public void updateLastLogin(Long id) {
-        us.updateLastLoginDateTime(id);
+    public boolean loginIsCorrect(String emailAddress, String password) {
+        return getUser(emailAddress, password).isPresent();
     }
 
     public boolean userExistsById(Long id) {
-        return getUserById(id).isPresent();
+        return getUser(id).isPresent();
     }
 
     public void saveMessage(Message message) {
@@ -67,6 +59,10 @@ public class DBController {
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public List<Message> getAllMessagesBetween(Long user1, Long user2) {
+        return ms.getAllMessagesBetween(user1, user2);
     }
 
     public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) {
@@ -94,7 +90,12 @@ public class DBController {
         }
     }
 
-    public List<Message> getAllMessagesBetween(Long user1, Long user2) {
-        return ms.getAllMessagesBetween(user1, user2);
+    public void closeConn() {
+        try {
+            us.getConn().close();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

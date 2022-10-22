@@ -1,17 +1,18 @@
 package services.impl;
 
-import dao.dao.DaoSqlMessage;
+import dao.controllers.DBController;
+import dao.dao.DAO;
 import entities.Message;
+import lombok.SneakyThrows;
 import services.MessageService;
 
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MessageServiceImpl implements MessageService {
-    private DaoSqlMessage dao;
+    private DAO<Message> dao;
 
-    public MessageServiceImpl(DaoSqlMessage dao) {
+    public MessageServiceImpl(DAO<Message> dao) {
         this.dao = dao;
     }
 
@@ -19,29 +20,22 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getMessages(Long fromID) {
-        var toID = toWhoID(fromID);
-        if (toID.equals(-1L)) {
-            return new ArrayList<>();
+    public void saveMessage(Message message) {
+        dao.save(message);
+    }
+
+    @Override
+    @SneakyThrows
+    public List<Message> getAllMessagesBetween(Long user1, Long user2) {
+        String SQL = "SELECT * FROM messages WHERE from_id = ? and to_id = ? OR from_id = ? and to_id = ?" +
+                "ORDER BY id";
+        try (PreparedStatement ps = dao.getConn().prepareStatement(SQL)) {
+            ps.setLong(1, user1);
+            ps.setLong(2, user2);
+            ps.setLong(3, user2);
+            ps.setLong(4, user1);
+            var result = ps.executeQuery();
+            return DBController.remapResultSet(result, Message::getFromResultSet);
         }
-        var messagesByMe = dao.getMessagesFrom(fromID, toID);
-        var messagesToMe = dao.getMessagesFrom(toID, fromID);
-        List<Message> listOfMessages = new ArrayList<>();
-        listOfMessages.addAll(messagesByMe);
-        listOfMessages.addAll(messagesToMe);
-//        listOfMessages = listOfMessages.stream().sorted((l1, l2) -> (int) (l1.getId() - l2.getId())).collect(Collectors.toList());
-        return listOfMessages.isEmpty() ? new ArrayList<>() : listOfMessages.stream().sorted((l1, l2) -> (int) (l1.getId() - l2.getId())).collect(Collectors.toList());
-//        return listOfMessages.isEmpty() ? new ArrayList<>() : listOfMessages;
     }
-
-    @Override
-    public void addMessage(Long fromId, Long toId, String message) {
-        dao.addMessage(fromId, toId, message);
-    }
-
-    @Override
-    public Long toWhoID(Long fromId) {
-        return dao.toWhoID(fromId);
-    }
-
 }

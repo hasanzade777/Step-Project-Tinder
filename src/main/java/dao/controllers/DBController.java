@@ -9,6 +9,8 @@ import services.UserService;
 import services.impl.MessageServiceImpl;
 import services.impl.UserServiceImpl;
 
+import lombok.SneakyThrows;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +29,19 @@ public class DBController {
     }
 
     public Optional<User> getUser(String emailAddress, String password) {
-        return us.get(emailAddress, password);
+        return us.getUser(emailAddress, password);
+    }
+
+    public List<User> getAllUsers() {
+        return us.getAllUsers();
+    }
+
+    public boolean loginIsCorrect(String emailAddress, String password) {
+        return getUser(emailAddress, password).isPresent();
+    }
+
+    public void updateLastLoginDateTime(long userId) {
+        us.updateLastLoginDateTime(userId);
     }
 
     public Optional<User> getUserById(Long id) {
@@ -57,25 +71,27 @@ public class DBController {
 
     public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) {
         List<A> data = new ArrayList<>();
-        while (true) {
-            try {
+        try (result) {
+            while (true) {
                 if (!result.next()) break;
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+                A p = f.apply(result);
+                data.add(p);
             }
-            A p = f.apply(result);
-            data.add(p);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return data;
     }
 
     public static <A> A remapResult(ResultSet result, Function<ResultSet, A> f) {
-        try {
+        try (result) {
             result.next();
-        } catch (SQLException e) {
+            return f.apply(result);
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return f.apply(result);
     }
 
     public List<Message> getAllMessagesBetween(Long user1, Long user2) {

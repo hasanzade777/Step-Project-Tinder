@@ -11,8 +11,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Objects;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 
@@ -28,12 +31,10 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html")).getFile().substring(1);
-        List<String> lines = Files.readAllLines(Path.of(fileName));
+        String fileName = Objects.requireNonNull(getClass().getClassLoader().getResource("templates/login.html"))
+                .getFile();
         try (PrintWriter pw = resp.getWriter()) {
-            for (String line : lines) {
-                pw.println(line);
-            }
+            Files.readAllLines(Path.of(fileName)).forEach(pw::println);
         }
     }
 
@@ -41,13 +42,15 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String inputEmail = req.getParameter("inputEmail");
         String inputPassword = req.getParameter("inputPassword");
-        Optional<User> userOpt = dbc.getUser(inputEmail, inputPassword);
-        if (userOpt.isEmpty()) {
-            resp.sendRedirect("/login"); //wrong username or password message to be added
-        } else {
-            User userLoggedIn = userOpt.get();
+        boolean loginIsCorrect = dbc.loginIsCorrect(inputEmail, inputPassword);
+        if (!loginIsCorrect) {
+            resp.sendRedirect("/login");
+        }
+        else {
+            req.getSession().invalidate();
+            User userLoggedIn = dbc.getUser(inputEmail, inputPassword).get();
             long userLoggedInId = userLoggedIn.getId();
-            dbc.updateLastLogin(userLoggedInId);
+            dbc.updateLastLoginDateTime(userLoggedInId);
             Cookie cookie = new Cookie("c_user", String.valueOf(userLoggedInId));
             cookie.setMaxAge(10 * 24 * 60 * 60); //10 days
             resp.addCookie(cookie);

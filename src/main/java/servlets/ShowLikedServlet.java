@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ShowLikedServlet extends HttpServlet {
+// http://localhost:8080/liked
+public class LikedUsersShowServlet extends HttpServlet {
 
     private Template templ;
 
@@ -43,7 +44,10 @@ public class ShowLikedServlet extends HttpServlet {
         HttpSession session = req.getSession();
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
         if (usersLiked.isEmpty()) {
-            resp.sendRedirect("/users");
+             resp.setContentType("text/html");
+            try (PrintWriter pw = resp.getWriter()) {
+                pw.println("There is no user liked.<br>");
+            }
         }
         Map<String, Object> data = new HashMap<>();
         data.put("usersLiked", usersLiked);

@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class User implements Identifiable {
@@ -61,21 +63,23 @@ public class User implements Identifiable {
     }
 
     public String getUsername() {
-        return name.concat(" ").concat(surname);
+        return username;
     }
 
-    public String getFullName() {
-        return name.concat(" ").concat(surname);
-    }
 
     public String getJob() {
         return job;
     }
 
-    public String getLastActiveTime() {
-        return DurationFormatUtils.formatDurationWords(Duration.ofMillis(
-                        ChronoUnit.MILLIS.between(lastLoginDateTime, LocalDateTime.now())).toMillis(),
-                true, true) + " ago";
+    public String getInactiveTimePeriod() {
+        String durationInWords = DurationFormatUtils.formatDurationWords(Math.abs(
+                        Duration.between(
+                                lastLoginDateTime,
+                                LocalDateTime.now()).toMillis()),
+                true,
+                true);
+        String[] firstUnit = durationInWords.split(" ");
+        return String.format("%s %s", firstUnit[0], firstUnit[1]);
     }
 
     public static User getFromResultSet(ResultSet rs) {
@@ -89,7 +93,8 @@ public class User implements Identifiable {
                     rs.getString("password"),
                     rs.getString("profile_pic_link"),
                     rs.getTimestamp("last_login_date_time").toLocalDateTime());
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

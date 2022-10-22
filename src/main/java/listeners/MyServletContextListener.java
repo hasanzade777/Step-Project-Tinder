@@ -30,7 +30,7 @@ public class MyServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        Connection conn = (Connection) sce.getServletContext().getAttribute("dbc");
+        Connection conn = (Connection) sce.getServletContext().getAttribute("dbConnection");
         try {
             conn.close();
         }

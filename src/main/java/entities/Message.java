@@ -21,6 +21,13 @@ public class Message implements Identifiable {
     private String message;
     private LocalDateTime dateTimeSent;
 
+    public Message(Long fromId, Long toId, String message) {
+        this.fromId = fromId;
+        this.toId = toId;
+        this.message = message;
+        this.dateTimeSent = LocalDateTime.now();
+    }
+
     public Message(Long id, Long fromId, Long toId, String message, LocalDateTime dateTimeSent) {
         this.id = id;
         this.fromId = fromId;

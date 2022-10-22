@@ -2,11 +2,16 @@ package filters;
 
 import dao.controllers.DBController;
 import entities.User;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,13 +22,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static freemarker.template.Configuration.VERSION_2_3_28;
+
 public class UsersFilter implements Filter {
 
     private DBController dbc;
+    private Template template;
 
     @Override
     public void init(FilterConfig filterConfig) {
         this.dbc = (DBController) filterConfig.getServletContext().getAttribute("dbc");
+        Configuration configuration = new Configuration(VERSION_2_3_28);
+        configuration.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
+        try {
+            configuration.setDirectoryForTemplateLoading(new File(Objects.requireNonNull(getClass().getClassLoader().getResource("templates")).toURI()));
+            template = configuration.getTemplate("simple-page.ftl");
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean isHTTP(ServletRequest req, ServletResponse resp) {
@@ -48,9 +64,13 @@ public class UsersFilter implements Filter {
                     .getValue());
             usersNotChecked.removeIf(user -> user.getId() == userLoggedInId);
             if (usersNotChecked.isEmpty()) {
-                resp.setContentType("text/html");
                 try (PrintWriter pw = resp.getWriter()) {
-                    pw.println("There is no user to display.<br>");
+                    template.process(
+                            Map.of("message", "THERE IS NO USER TO DISPLAY"),
+                            pw);
+                }
+                catch (TemplateException e) {
+                    throw new RuntimeException(e);
                 }
             }
             else {

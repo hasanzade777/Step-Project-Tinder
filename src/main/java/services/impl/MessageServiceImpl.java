@@ -28,7 +28,7 @@ public class MessageServiceImpl implements MessageService {
     @SneakyThrows
     public List<Message> getAllMessagesBetween(Long user1, Long user2) {
         String SQL = "SELECT * FROM messages WHERE from_id = ? and to_id = ? OR from_id = ? and to_id = ?" +
-                "ORDER BY id";
+                "ORDER BY date_time_sent";
         try (PreparedStatement ps = dao.getConn().prepareStatement(SQL)) {
             ps.setLong(1, user1);
             ps.setLong(2, user2);

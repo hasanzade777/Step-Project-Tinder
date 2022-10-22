@@ -25,7 +25,7 @@ public class MessageServlet extends HttpServlet {
     private Template template;
 
     private DBController dbc;
-    private static HashMap<String, Object> data = new HashMap<>();
+    private static final HashMap<String, Object> data = new HashMap<>();
 
     @Override
     public void init() {
@@ -44,7 +44,7 @@ public class MessageServlet extends HttpServlet {
     @Override
     @SneakyThrows
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        User userToChatWith = dbc.getUserById(
+        User userToChatWith = dbc.getUser(
                 Long.valueOf(req.getPathInfo().substring(1)))
                 .get();
         Long userLoggedInId = Long.valueOf(Arrays.stream(req.getCookies())
@@ -76,6 +76,6 @@ public class MessageServlet extends HttpServlet {
                 .getValue());
         var messageContent = req.getParameter("send-message");
         dbc.saveMessage(new Message(userLoggedInId, userIdToChatWith, messageContent));
-        resp.sendRedirect(String.format("/message/%d", userIdToChatWith));
+        resp.sendRedirect(String.format("/messages/%d", userIdToChatWith));
     }
 }

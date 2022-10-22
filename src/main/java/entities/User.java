@@ -15,7 +15,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"username", "emailAddress"})
 @ToString
 public class User implements Identifiable {
     private Long id;

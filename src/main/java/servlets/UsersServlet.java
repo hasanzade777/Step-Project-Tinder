@@ -20,13 +20,13 @@ import javax.servlet.http.HttpSession;
 
 
 // http://localhost:8080/users
-public class LikePageServlet extends HttpServlet {
+public class UsersServlet extends HttpServlet {
     private Template templ;
     private DBController dbc;
 
     @Override
     public void init() {
-        dbc = (DBController) getServletContext().getAttribute("DBController");
+        dbc = (DBController) getServletContext().getAttribute("dbc");
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
         conf.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
         try {

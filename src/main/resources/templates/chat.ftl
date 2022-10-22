@@ -65,7 +65,7 @@
                                             <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
                                                 ${message.message}
                                             </p>
-                                            <span class="receive-msg-time">${message.dateTime()}</span>
+                                            <span class="receive-msg-time">${message.sentWhen()}</span>
                                         </div>
                                     </li>
                                 </#if>

@@ -4,9 +4,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.postgresql.copy.CopyDual;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -55,7 +58,19 @@ public class Message implements Identifiable {
             throw new RuntimeException(e);
         }
     }
-    public String dateTime(){
-        return dateTimeSent.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+
+    public String sentWhen() {
+        Duration dur = Duration.between(dateTimeSent, LocalDateTime.now());
+        if (dur.compareTo(Duration.ofDays(1)) > 0) {
+            return dateTimeSent.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        }
+        else {
+            String durationInWords = DurationFormatUtils.formatDurationWords(
+                    Math.abs(dur.toMillis()),
+                    true,
+                    true);
+            String[] words = durationInWords.split(" ");
+            return String.format("%s %s ago", words[0], words[1]);
+        }
     }
 }

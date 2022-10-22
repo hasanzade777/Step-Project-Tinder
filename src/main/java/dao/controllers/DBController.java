@@ -1,9 +1,11 @@
 package dao.controllers;
 
-import dao.dao.DaoSqlMessage;
-import dao.dao.DaoSqlUser;
+import dao.dao.MessageDaoImpl;
+import dao.dao.UserDaoImpl;
 import entities.Message;
 import entities.User;
+import services.MessageService;
+import services.UserService;
 import services.impl.MessageServiceImpl;
 import services.impl.UserServiceImpl;
 
@@ -16,36 +18,41 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class DBController {
-    private UserServiceImpl us;
-    private MessageServiceImpl ms;
+    private UserService us;
+    private MessageService ms;
 
     public DBController(Connection conn) {
-        this.us = new UserServiceImpl(new DaoSqlUser(conn));
-        this.ms = new MessageServiceImpl(new DaoSqlMessage(conn));
+        this.us = new UserServiceImpl(new UserDaoImpl(conn));
+        this.ms = new MessageServiceImpl(new MessageDaoImpl(conn));
     }
 
     public Optional<User> getUser(String emailAddress, String password) {
         return us.get(emailAddress, password);
     }
 
-    public List<Message> getAllMessages(Long id) {
-        return ms.getMessages(id);
-    }
-
-    public Optional<User> getUserByID(Long id) {
+    public Optional<User> getUserById(Long id) {
         return us.getUserByID(id);
     }
 
-    public void addMessage(Long fromId, Long toId, String message) {
-        try {
-            ms.addMessage(fromId, toId, message);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    public List<User> getAllUsers() {
+        return us.getAll();
     }
 
-    public Long getWhoID(Long fromId) {
-        return ms.toWhoID(fromId);
+    public void updateLastLogin(Long id) {
+        us.updateLastLoginDateTime(id);
+    }
+
+    public boolean userExistsById(Long id) {
+        return getUserById(id).isPresent();
+    }
+
+    public void saveMessage(Message message) {
+        try {
+            ms.saveMessage(message);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public static <A> List<A> remapResultSet(ResultSet result, Function<ResultSet, A> f) {
@@ -62,15 +69,6 @@ public class DBController {
         return data;
     }
 
-    public List<User> getAllUsers() {
-        return us.getAll();
-    }
-
-
-    public void updateLastLogin(Long id) {
-        us.updateLastLoginDateTime(id);
-    }
-
     public static <A> A remapResult(ResultSet result, Function<ResultSet, A> f) {
         try {
             result.next();
@@ -78,5 +76,9 @@ public class DBController {
             throw new RuntimeException(e);
         }
         return f.apply(result);
+    }
+
+    public List<Message> getAllMessagesBetween(Long user1, Long user2) {
+        return ms.getAllMessagesBetween(user1, user2);
     }
 }

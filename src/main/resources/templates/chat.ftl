@@ -49,11 +49,11 @@
                 <div class="chat-content">
                     <div class="col-md-12 chats pt-3 pl-2 pr-3 pb-3">
                         <ul class="p-0">
-                            <#list messagesByMe as messageByMe>
-                                <#if messageByMe.toId == toId>
+                            <#list allMessages as message>
+                                <#if message.toId == toId>
                                     <li class="send-msg float-right mb-2">
                                         <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                            ${messageByMe.message}
+                                            ${message.message}
                                         </p>
                                     </li>
                                 <#else>
@@ -63,9 +63,9 @@
                                         </div>
                                         <div class="receive-msg-desc float-left ml-2">
                                             <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
-                                                ${messageByMe.message}
+                                                ${message.message}
                                             </p>
-                                            <span class="receive-msg-time">${messageByMe.dateTime()}</span>
+                                            <span class="receive-msg-time">${message.dateTime()}</span>
                                         </div>
                                     </li>
                                 </#if>

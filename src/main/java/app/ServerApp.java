@@ -5,6 +5,7 @@ import filters.MessagesFilter;
 import filters.UsersFilter;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import servlets.*;
 
@@ -21,18 +22,18 @@ public class ServerApp {
             handler.addServlet(LoginServlet.class, "/login");
             handler.addServlet(UsersServlet.class, "/users");
             handler.addServlet(ShowLikedServlet.class, "/liked");
+            handler.addServlet(MessageServlet.class,"/messages/*");
             handler.addServlet(BootStrapServlet.class, "/css/bootstrap.min.css");
             handler.addServlet(StyleServlet.class, "/css/style.css");
-            handler.addServlet(MessageServlet.class,"/message/*");
-            handler.addServlet(BootStrapServlet.class,"/message/css/bootstrap.min.css");
-            handler.addServlet(StyleServlet.class, "/message/css/style.css");
+            handler.addServlet(BootStrapServlet.class,"/messages/css/bootstrap.min.css");
+            handler.addServlet(StyleServlet.class, "/messages/css/style.css");
             //filters
-            handler.addFilter(LoginFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LoginFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LoginFilter.class,"/message/*",EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(UsersFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(UsersFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(MessagesFilter.class, "/message/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/users/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class,"/messages/*",EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(UsersFilter.class, "/users/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(UsersFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(MessagesFilter.class, "/messages/*", EnumSet.of(DispatcherType.REQUEST));
             //context-listener
             handler.addEventListener(new MyServletContextListener());
             //context-params
@@ -46,8 +47,7 @@ public class ServerApp {
             server.join();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }

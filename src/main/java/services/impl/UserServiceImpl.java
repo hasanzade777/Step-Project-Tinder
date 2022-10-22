@@ -13,32 +13,38 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private DAO<User> dao;
 
-    public UserServiceImpl() {
-    }
-
     public UserServiceImpl(DAO<User> dao) {
         this.dao = dao;
     }
 
+    public UserServiceImpl() {
+    }
+
+
     @Override
-    public Optional<User> get(User user) {
+    public Optional<User> getUser(Long id) {
+        return dao.get(id);
+    }
+
+    @Override
+    public Optional<User> getUser(User user) {
         return dao.get(user);
     }
 
     @Override
-    public Optional<User> get(String emailAddress, String password) {
+    public Optional<User> getUser(String emailAddress, String password) {
         return dao.get(new User(emailAddress, password));
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAllUsers() {
         return dao.getAll();
     }
 
     @Override
     @SneakyThrows
     public void updateLastLoginDateTime(Long id) {
-        Connection conn = dao.getConn();
+        Connection conn = getConn();
         String SQL = "UPDATE users SET last_login_date_time = NOW() WHERE id = ?";
         try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
             psttm.setLong(1, id);
@@ -47,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByID(Long id) {
-        return dao.get(id);
+    public Connection getConn() {
+        return dao.getConn();
     }
 }

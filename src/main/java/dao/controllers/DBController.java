@@ -49,7 +49,7 @@ public class DBController {
     }
 
     public boolean userExistsById(Long id) {
-        return getUser(id).isPresent();
+        return us.userExistsById(id);
     }
 
     public void saveMessage(Message message) {

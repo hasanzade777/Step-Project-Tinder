@@ -5,9 +5,8 @@ import entities.Message;
 import java.util.List;
 
 public interface MessageService {
-    List<Message> getMessages(Long fromID);
 
-    void addMessage(Long fromId, Long toId, String message);
+    void saveMessage(Message message);
 
-    Long toWhoID(Long fromId);
+    List<Message> getAllMessagesBetween(Long user1, Long user2);
 }

@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean userExistsById(Long id) {
+        return getUser(id).isPresent();
+    }
+
+    @Override
     @SneakyThrows
     public void updateLastLoginDateTime(Long id) {
         Connection conn = getConn();

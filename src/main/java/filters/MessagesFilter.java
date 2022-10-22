@@ -49,11 +49,9 @@ public class MessagesFilter implements Filter {
         }
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-
         if (req.getPathInfo() == null) {
             chain.doFilter(request, response);
         }
-
         String userIdToChatWith = req.getPathInfo().substring(1);
         boolean idIsNumeric = userIdToChatWith.matches("[0-9]+");
         Long userLoggedInId = Long.valueOf(Arrays.stream(req.getCookies())

@@ -29,7 +29,7 @@
                         <table class="table-users table" border="0">
                             <tbody>
                             <#list usersLiked as user>
-                            <tr>
+                            <tr onclick="window.location='/messages/${user.id}'">
                                 <td width="10">
                                     <div class="avatar-img">
                                         <img class="img-circle" src=${user.profilePicLink} />

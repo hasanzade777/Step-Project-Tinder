@@ -1,6 +1,7 @@
-package dao.dao;
+package dao.dao.impl;
 
 import dao.controllers.DBController;
+import dao.dao.DAO;
 import entities.User;
 import lombok.SneakyThrows;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 public class UserDaoImpl implements DAO<User> {
 
-    private Connection conn;
+    private final Connection conn;
 
     public UserDaoImpl(Connection conn) {
         this.conn = conn;

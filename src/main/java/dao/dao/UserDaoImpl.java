@@ -12,16 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DaoSqlUser extends DaoSql<User> {
+public class UserDaoImpl implements DAO<User> {
 
-    public DaoSqlUser(Connection conn) {
-        super(conn);
+    private Connection conn;
+
+    public UserDaoImpl(Connection conn) {
+        this.conn = conn;
+    }
+
+    @Override
+    public void save(User obj) {
+        throw new RuntimeException("Registration not implemented.");
     }
 
     @SneakyThrows
     @Override
     public Optional<User> get(Long id) {
-        Connection conn = getConn();
         String SQL = "SELECT * FROM users WHERE id = ?";
         try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
             psttm.setLong(1, id);
@@ -35,7 +41,6 @@ public class DaoSqlUser extends DaoSql<User> {
     @SneakyThrows
     @Override
     public Optional<User> get(User user) {
-        Connection conn = getConn();
         String SQL = "SELECT * FROM users WHERE email_address = (?) AND password = (?)";
         try (PreparedStatement psttm = conn.prepareStatement(SQL)) {
             psttm.setString(1, user.getEmailAddress());
@@ -49,12 +54,16 @@ public class DaoSqlUser extends DaoSql<User> {
     @SneakyThrows
     @Override
     public List<User> getAll() {
-        Connection conn = getConn();
         String SQL = "SELECT * FROM users";
         try (Statement sttm = conn.createStatement()) {
             ResultSet rs = sttm.executeQuery(SQL);
             return rs.isBeforeFirst() ? new ArrayList<>(DBController.remapResultSet(rs, User::getFromResultSet)) :
                     new ArrayList<>();
         }
+    }
+
+    @Override
+    public Connection getConn() {
+        return conn;
     }
 }

@@ -1,6 +1,6 @@
 package services.impl;
 
-import dao.dao.DaoSql;
+import dao.dao.DAO;
 import entities.User;
 import lombok.SneakyThrows;
 import services.UserService;
@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
-    private DaoSql<User> dao;
+    private DAO<User> dao;
 
     public UserServiceImpl() {
     }
 
-    public UserServiceImpl(DaoSql<User> dao) {
+    public UserServiceImpl(DAO<User> dao) {
         this.dao = dao;
     }
 

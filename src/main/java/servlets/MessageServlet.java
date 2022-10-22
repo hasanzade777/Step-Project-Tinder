@@ -1,9 +1,11 @@
 package servlets;
 
 import dao.controllers.DBController;
+import entities.Message;
+import entities.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import lombok.SneakyThrows;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -26,7 +29,7 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     public void init() {
-        this.dbc = (DBController) getServletContext().getAttribute("DBController");
+        this.dbc = (DBController) getServletContext().getAttribute("dbc");
         log("Initializing Message");
         Configuration configuration = new Configuration(VERSION_2_3_28);
         configuration.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
@@ -39,33 +42,40 @@ public class MessageServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getPathInfo().substring(1).matches("[0-9]+")) {
-            var allMessages = dbc.getAllMessages(Long.valueOf(req.getPathInfo().substring(1)));
-            var user = dbc.getUserByID(Long.valueOf(req.getPathInfo().substring(1)));
-            if (allMessages.isEmpty()) {
-                resp.sendRedirect("/users");
-            }
-            System.out.println(allMessages);
-            data.clear();
-            data.put("messagesByMe", allMessages);
-            data.put("name", user.get().getFullName());
-            data.put("toId", user.get().getId());
-            data.put("profileImgUrl", user.get().getProfilePicLink());
-            try (PrintWriter pw = resp.getWriter()) {
-                template.process(data, pw);
-            } catch (TemplateException e) {
-                throw new RuntimeException(e.getMessage());
-            }
+    @SneakyThrows
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        User userToChatWith = dbc.getUserById(
+                Long.valueOf(req.getPathInfo().substring(1)))
+                .get();
+        Long userLoggedInId = Long.valueOf(Arrays.stream(req.getCookies())
+                .filter(cookie -> cookie.getName().equals("c_user"))
+                .findAny()
+                .get()
+                .getValue());
+        var allMessages = dbc.getAllMessagesBetween(
+                userToChatWith.getId(),
+                userLoggedInId);
+        data.clear();
+        data.put("allMessages", allMessages);
+        data.put("name", userToChatWith.getFullName());
+        data.put("toId", userToChatWith.getId());
+        data.put("profileImgUrl", userToChatWith.getProfilePicLink());
+        try (PrintWriter pw = resp.getWriter()) {
+            template.process(data, pw);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log("Sending message");
-        var user = dbc.getUserByID(Long.valueOf(req.getPathInfo().substring(1)));
+        Long userIdToChatWith = Long.valueOf(req.getPathInfo().substring(1));
+        Long userLoggedInId = Long.valueOf(Arrays.stream(req.getCookies())
+                .filter(cookie -> cookie.getName().equals("c_user"))
+                .findAny()
+                .get()
+                .getValue());
         var messageContent = req.getParameter("send-message");
-        dbc.addMessage(user.get().getId(), dbc.getWhoID(user.get().getId()), messageContent);
-        resp.sendRedirect("/message/" + user.get().getId().toString());
+        dbc.saveMessage(new Message(userLoggedInId, userIdToChatWith, messageContent));
+        resp.sendRedirect(String.format("/message/%d", userIdToChatWith));
     }
 }

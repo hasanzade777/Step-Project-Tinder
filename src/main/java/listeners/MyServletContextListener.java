@@ -1,12 +1,13 @@
 package listeners;
 
 import dao.controllers.DBController;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class MyServletContextListener implements ServletContextListener {
     @Override
@@ -22,8 +23,7 @@ public class MyServletContextListener implements ServletContextListener {
             Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
             DBController dbc = new DBController(conn);
             sc.setAttribute("dbc", dbc);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

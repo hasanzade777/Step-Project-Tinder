@@ -55,8 +55,7 @@ public class DBController {
     public void saveMessage(Message message) {
         try {
             ms.saveMessage(message);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -73,8 +72,7 @@ public class DBController {
                 A p = f.apply(result);
                 data.add(p);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return data;
@@ -84,8 +82,7 @@ public class DBController {
         try (result) {
             result.next();
             return f.apply(result);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -93,8 +90,7 @@ public class DBController {
     public void closeConn() {
         try {
             us.getConn().close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

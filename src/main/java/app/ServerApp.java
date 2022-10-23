@@ -22,15 +22,15 @@ public class ServerApp {
             handler.addServlet(LoginServlet.class, "/login");
             handler.addServlet(UsersServlet.class, "/users");
             handler.addServlet(ShowLikedServlet.class, "/liked");
-            handler.addServlet(MessageServlet.class,"/messages/*");
+            handler.addServlet(MessageServlet.class, "/messages/*");
             handler.addServlet(BootStrapServlet.class, "/css/bootstrap.min.css");
             handler.addServlet(StyleServlet.class, "/css/style.css");
-            handler.addServlet(BootStrapServlet.class,"/messages/css/bootstrap.min.css");
+            handler.addServlet(BootStrapServlet.class, "/messages/css/bootstrap.min.css");
             handler.addServlet(StyleServlet.class, "/messages/css/style.css");
             //filters
             handler.addFilter(LoginFilter.class, "/users/*", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(LoginFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LoginFilter.class,"/messages/*",EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/messages/*", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(UsersFilter.class, "/users/*", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(UsersFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
             handler.addFilter(MessagesFilter.class, "/messages/*", EnumSet.of(DispatcherType.REQUEST));
@@ -45,8 +45,7 @@ public class ServerApp {
             server.setHandler(handler);
             server.start();
             server.join();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.postgresql.copy.CopyDual;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,8 +62,7 @@ public class Message implements Identifiable {
         Duration dur = Duration.between(dateTimeSent, LocalDateTime.now());
         if (dur.compareTo(Duration.ofDays(1)) > 0) {
             return dateTimeSent.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        }
-        else {
+        } else {
             String durationInWords = DurationFormatUtils.formatDurationWords(
                     Math.abs(dur.toMillis()),
                     true,

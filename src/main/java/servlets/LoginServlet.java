@@ -12,11 +12,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 
 // http://localhost:8080/login
@@ -45,8 +40,7 @@ public class LoginServlet extends HttpServlet {
         boolean loginIsCorrect = dbc.loginIsCorrect(inputEmail, inputPassword);
         if (!loginIsCorrect) {
             resp.sendRedirect("/login");
-        }
-        else {
+        } else {
             req.getSession().invalidate();
             User userLoggedIn = dbc.getUser(inputEmail, inputPassword).get();
             long userLoggedInId = userLoggedIn.getId();

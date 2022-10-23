@@ -1,16 +1,16 @@
 package entities;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -76,8 +76,7 @@ public class User implements Identifiable {
                     rs.getString("password"),
                     rs.getString("profile_pic_link"),
                     rs.getTimestamp("last_login_date_time").toLocalDateTime());
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

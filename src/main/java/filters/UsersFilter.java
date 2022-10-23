@@ -6,21 +6,16 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import static freemarker.template.Configuration.VERSION_2_3_28;
 
@@ -57,7 +52,7 @@ public class UsersFilter implements Filter {
         HttpSession session = req.getSession();
         if (session.isNew()) {
             List<User> usersNotChecked = dbc.getAllUsers();
-            long userLoggedInId =  Long.parseLong(Arrays.stream(req.getCookies())
+            long userLoggedInId = Long.parseLong(Arrays.stream(req.getCookies())
                     .filter(cookie -> cookie.getName().equals("c_user"))
                     .findAny()
                     .get()
@@ -68,19 +63,16 @@ public class UsersFilter implements Filter {
                     template.process(
                             Map.of("message", "THERE IS NO USER TO DISPLAY"),
                             pw);
-                }
-                catch (TemplateException e) {
+                } catch (TemplateException e) {
                     throw new RuntimeException(e);
                 }
-            }
-            else {
+            } else {
                 session.setAttribute("usersNotChecked", usersNotChecked);
                 session.setAttribute("usersLiked", new ArrayList<User>());
                 session.setAttribute("userDisplayIndex", 0);
                 chain.doFilter(request, response);
             }
-        }
-        else {
+        } else {
             chain.doFilter(request, response);
         }
     }

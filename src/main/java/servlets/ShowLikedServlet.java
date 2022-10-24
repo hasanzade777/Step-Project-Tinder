@@ -22,7 +22,8 @@ import java.util.Objects;
 // http://localhost:8080/liked
 public class ShowLikedServlet extends HttpServlet {
 
-    private Template templ;
+    private Template mainTempl;
+    private Template errorPageTempl;
 
     @Override
     public void init() {
@@ -34,7 +35,8 @@ public class ShowLikedServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
-            templ = conf.getTemplate("people-list.ftl");
+            mainTempl = conf.getTemplate("people-list.ftl");
+            errorPageTempl = conf.getTemplate("simple-page.ftl");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -45,15 +47,18 @@ public class ShowLikedServlet extends HttpServlet {
         HttpSession session = req.getSession();
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
         if (usersLiked.isEmpty()) {
-            resp.setContentType("text/html");
             try (PrintWriter pw = resp.getWriter()) {
-                pw.println("There is no user liked.<br>");
+                errorPageTempl.process(
+                        Map.of("message", "THERE IS NO USER TO DISPLAY"),
+                        pw);
+            } catch (TemplateException e) {
+                throw new RuntimeException(e);
             }
         }
         Map<String, Object> data = new HashMap<>();
         data.put("usersLiked", usersLiked);
         try (PrintWriter pw = resp.getWriter()) {
-            templ.process(data, pw);
+            mainTempl.process(data, pw);
         } catch (TemplateException e) {
             throw new RuntimeException(e);
         }

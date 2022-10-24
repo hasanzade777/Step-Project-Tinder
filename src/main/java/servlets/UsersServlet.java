@@ -5,16 +5,19 @@ import entities.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 // http://localhost:8080/users
@@ -24,14 +27,17 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     public void init() {
-        this.dbc = (DBController) getServletContext().getAttribute("DBController");
+        dbc = (DBController) getServletContext().getAttribute("dbc");
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
         conf.setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
         try {
-            conf.setDirectoryForTemplateLoading(new File(getClass().getClassLoader().getResource("templates").getPath()));
-            this.templ = conf.getTemplate("like-page.ftl");
+            conf.setDirectoryForTemplateLoading(new File(Objects.requireNonNull(getClass().getClassLoader().getResource("templates")).toURI()));
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
         }
-        catch (IOException e) {
+        try {
+            templ = conf.getTemplate("like-page.ftl");
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -47,25 +53,23 @@ public class UsersServlet extends HttpServlet {
             try (PrintWriter pw = resp.getWriter()) {
                 templ.process(Map.of("user", user), pw);
             }
-        }
-        catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             resp.sendRedirect("/liked");
-        }
-        catch (TemplateException e) {
+        } catch (TemplateException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession();
         String preference = req.getParameter("button");
+        HttpSession session = req.getSession();
+        int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
         List<User> usersLiked = (List<User>) session.getAttribute("usersLiked");
         User user = (User) session.getAttribute("userToDisplay");
         if (preference.equals("like")) {
             usersLiked.add(user);
         }
-        int userDisplayIndex = (int) session.getAttribute("userDisplayIndex");
         session.setAttribute("userDisplayIndex", ++userDisplayIndex);
         resp.sendRedirect("/users");
     }

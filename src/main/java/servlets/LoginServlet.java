@@ -2,15 +2,16 @@ package servlets;
 
 import dao.controllers.DBController;
 import entities.User;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 // http://localhost:8080/login
@@ -20,7 +21,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() {
-        this.dbc = (DBController) getServletContext().getAttribute("DBController");
+        this.dbc = (DBController) getServletContext().getAttribute("dbc");
     }
 
     @Override
@@ -39,8 +40,7 @@ public class LoginServlet extends HttpServlet {
         boolean loginIsCorrect = dbc.loginIsCorrect(inputEmail, inputPassword);
         if (!loginIsCorrect) {
             resp.sendRedirect("/login");
-        }
-        else {
+        } else {
             req.getSession().invalidate();
             User userLoggedIn = dbc.getUser(inputEmail, inputPassword).get();
             long userLoggedInId = userLoggedIn.getId();

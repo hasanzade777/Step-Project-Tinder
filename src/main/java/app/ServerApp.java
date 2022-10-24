@@ -1,34 +1,42 @@
 package app;
 
-import filters.LikeFilter;
 import filters.LoginFilter;
-import java.util.EnumSet;
-import javax.servlet.DispatcherType;
+import filters.MessagesFilter;
+import filters.UsersFilter;
 import listeners.MyServletContextListener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import servlets.*;
+
+import javax.servlet.DispatcherType;
+import java.util.EnumSet;
 
 public class ServerApp {
     public static void main(String[] args) {
         try {
-            Server server = new Server(8080);
+            Server server = new Server(Integer.parseInt(System.getenv("PORT")));
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-            handler.addServlet(LoginServlet.class, "/");
+            handler.setSessionHandler(new SessionHandler());
+            //servlets
             handler.addServlet(LoginServlet.class, "/login");
             handler.addServlet(UsersServlet.class, "/users");
-            handler.addServlet(LikedUsersShowServlet.class, "/liked");
+            handler.addServlet(ShowLikedServlet.class, "/liked");
+            handler.addServlet(MessageServlet.class, "/messages/*");
             handler.addServlet(BootStrapServlet.class, "/css/bootstrap.min.css");
             handler.addServlet(StyleServlet.class, "/css/style.css");
+            handler.addServlet(BootStrapServlet.class, "/messages/css/bootstrap.min.css");
+            handler.addServlet(StyleServlet.class, "/messages/css/style.css");
             //filters
-            handler.addFilter(LoginFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LoginFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LikeFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
-            handler.addFilter(LikeFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/users/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(LoginFilter.class, "/messages/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(UsersFilter.class, "/users/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(UsersFilter.class, "/liked/*", EnumSet.of(DispatcherType.REQUEST));
+            handler.addFilter(MessagesFilter.class, "/messages/*", EnumSet.of(DispatcherType.REQUEST));
             //context-listener
             handler.addEventListener(new MyServletContextListener());
             //context-params
-            //database credentials
             handler.setInitParameter("dbHost", "ec2-52-203-118-49.compute-1.amazonaws.com");
             handler.setInitParameter("dbPort", "5432");
             handler.setInitParameter("dbName", "dsq4s45dhepp6");
@@ -38,8 +46,7 @@ public class ServerApp {
             server.start();
             server.join();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,12 +1,13 @@
 package listeners;
 
 import dao.controllers.DBController;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class MyServletContextListener implements ServletContextListener {
     @Override
@@ -17,25 +18,19 @@ public class MyServletContextListener implements ServletContextListener {
         String dbName = sc.getInitParameter("dbName");
         String dbUser = sc.getInitParameter("dbUser");
         String dbPassword = sc.getInitParameter("dbPassword");
-        String dbUrl = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName);
+        String url = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName);
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+            Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
             DBController dbc = new DBController(conn);
-            sc.setAttribute("DBController", dbc);
-        }
-        catch (SQLException e) {
+            sc.setAttribute("dbc", dbc);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        Connection conn = (Connection) sce.getServletContext().getAttribute("dbConnection");
-        try {
-            conn.close();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        DBController dbc = (DBController) sce.getServletContext().getAttribute("dbc");
+        dbc.closeConn();
     }
 }

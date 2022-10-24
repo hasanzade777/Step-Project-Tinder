@@ -1,17 +1,24 @@
 package entities;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
 
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"username", "emailAddress"})
+@ToString
 public class User implements Identifiable {
-    private long id;
+    private Long id;
     private String name;
     private String surname;
     private String job;
@@ -21,7 +28,7 @@ public class User implements Identifiable {
     private String profilePicLink;
     private LocalDateTime lastLoginDateTime;
 
-    public User(long id, String name, String surname, String job, String emailAddress, String username, String password, String profilePicLink, LocalDateTime lastLoginDateTime) {
+    public User(Long id, String name, String surname, String job, String emailAddress, String username, String password, String profilePicLink, LocalDateTime lastLoginDateTime) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -38,45 +45,24 @@ public class User implements Identifiable {
         this.password = password;
     }
 
-    @Override
-    public long getId() {
-        return id;
+    public User() {
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public String getPassword() {
-        return password;
+    public String getFullName() {
+        return String.format("%s %s", name, surname);
     }
 
     public LocalDate getLastLoginDate() {
         return lastLoginDateTime.toLocalDate();
     }
 
-    public String getProfilePicLink() {
-        return profilePicLink;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-
-    public String getJob() {
-        return job;
-    }
-
     public String getInactiveTimePeriod() {
-        String durationInWords = DurationFormatUtils.formatDurationWords(Math.abs(
-                        Duration.between(
-                                lastLoginDateTime,
-                                LocalDateTime.now()).toMillis()),
+        String durationInWords = DurationFormatUtils.formatDurationWords(
+                Math.abs(Duration.between(lastLoginDateTime, LocalDateTime.now()).toMillis()),
                 true,
                 true);
-        String[] firstUnit = durationInWords.split(" ");
-        return String.format("%s %s", firstUnit[0], firstUnit[1]);
+        String[] words = durationInWords.split(" ");
+        return String.format("%s %s", words[0], words[1]);
     }
 
     public static User getFromResultSet(ResultSet rs) {
@@ -90,8 +76,7 @@ public class User implements Identifiable {
                     rs.getString("password"),
                     rs.getString("profile_pic_link"),
                     rs.getTimestamp("last_login_date_time").toLocalDateTime());
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

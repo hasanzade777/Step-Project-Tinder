@@ -15,7 +15,7 @@ import java.util.EnumSet;
 public class ServerApp {
     public static void main(String[] args) {
         try {
-            Server server = new Server(8080);
+            Server server = new Server(Integer.parseInt(System.getenv("PORT")));
             ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             handler.setSessionHandler(new SessionHandler());
             //servlets

@@ -52,28 +52,31 @@ public class MessagesFilter implements Filter {
         if (req.getPathInfo() == null) {
             chain.doFilter(request, response);
         }
-        if (req.getPathInfo() != null && req.getPathInfo().substring(1).matches("[0-9]+")) {
-            var userIdToChatWith = req.getPathInfo().substring(1);
+        else {
+            String userIdToChatWith = req.getPathInfo().substring(1);
+            boolean idIsNumeric = userIdToChatWith.matches("[0-9]+");
             Long userLoggedInId = Long.valueOf(Arrays.stream(req.getCookies())
                     .filter(cookie -> cookie.getName().equals("c_user"))
                     .findAny()
                     .get()
                     .getValue());
-            if (dbc.userExistsById(Long.valueOf(userIdToChatWith)) &&
+            if (idIsNumeric &&
+                    dbc.userExistsById(Long.valueOf(userIdToChatWith)) &&
                     !userLoggedInId.equals(Long.valueOf(userIdToChatWith))) {
                 try {
                     chain.doFilter(request, response);
-                } catch (IOException | ServletException e) {
+                }
+                catch (IOException | ServletException e) {
                     throw new RuntimeException(e);
                 }
-            }
-        } else {
-            try (PrintWriter pw = resp.getWriter()) {
-                template.process(
-                        Map.of("message", "NO SUCH USER EXISTS"),
-                        pw);
-            } catch (TemplateException e) {
-                throw new RuntimeException(e);
+            } else {
+                try (PrintWriter pw = resp.getWriter()) {
+                    template.process(
+                            Map.of("message", "NO SUCH USER EXISTS"),
+                            pw);
+                } catch (TemplateException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

@@ -44,24 +44,31 @@ public class MessageServlet extends HttpServlet {
     @Override
     @SneakyThrows
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        User userToChatWith = dbc.getUser(
-                        Long.valueOf(req.getPathInfo().substring(1)))
-                .get();
-        Long userLoggedInId = Long.valueOf(Arrays.stream(req.getCookies())
-                .filter(cookie -> cookie.getName().equals("c_user"))
-                .findAny()
-                .get()
-                .getValue());
-        var allMessages = dbc.getAllMessagesBetween(
-                userToChatWith.getId(),
-                userLoggedInId);
-        data.clear();
-        data.put("allMessages", allMessages);
-        data.put("name", userToChatWith.getFullName());
-        data.put("toId", userToChatWith.getId());
-        data.put("profileImgUrl", userToChatWith.getProfilePicLink());
-        try (PrintWriter pw = resp.getWriter()) {
-            template.process(data, pw);
+        if (req.getPathInfo() != null) {
+            User userToChatWith = dbc.getUser(
+                            Long.valueOf(req.getPathInfo().substring(1)))
+                    .get();
+            Long userLoggedInId = Long.valueOf(Arrays.stream(req.getCookies())
+                    .filter(cookie -> cookie.getName().equals("c_user"))
+                    .findAny()
+                    .get()
+                    .getValue());
+            var allMessages = dbc.getAllMessagesBetween(
+                    userToChatWith.getId(),
+                    userLoggedInId);
+            if (allMessages.isEmpty()) {
+                resp.sendRedirect("/users");
+            }
+            data.clear();
+            data.put("allMessages", allMessages);
+            data.put("name", userToChatWith.getFullName());
+            data.put("toId", userToChatWith.getId());
+            data.put("profileImgUrl", userToChatWith.getProfilePicLink());
+            try (PrintWriter pw = resp.getWriter()) {
+                template.process(data, pw);
+            }
+        } else {
+            resp.sendRedirect("/users");
         }
     }
 

@@ -5,7 +5,7 @@
 
 You can find ready HTML templates of all needed pages in the [src/main/resources](/templates) folder.
 
-#### Teamwork
+#### Team
 
 Ali and Elbrus
 
@@ -14,3 +14,5 @@ Ali and Elbrus
 - /liked
 - /messages/{id}
 - /login
+# Heroku
+http://tinder2022.herokuapp.com/login

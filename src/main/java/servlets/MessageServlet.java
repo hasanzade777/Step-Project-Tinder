@@ -56,9 +56,6 @@ public class MessageServlet extends HttpServlet {
             var allMessages = dbc.getAllMessagesBetween(
                     userToChatWith.getId(),
                     userLoggedInId);
-            if (allMessages.isEmpty()) {
-                resp.sendRedirect("/users");
-            }
             data.clear();
             data.put("allMessages", allMessages);
             data.put("name", userToChatWith.getFullName());

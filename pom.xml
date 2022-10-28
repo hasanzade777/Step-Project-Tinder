@@ -18,6 +18,7 @@
                     <processTypes>
                         <web>java $JAVA_OPTS -cp target/classes:target/dependency/* app.ServerApp</web>
                     </processTypes>
+                    <appName>tinder2022</appName>
                 </configuration>
             </plugin>
             <plugin>

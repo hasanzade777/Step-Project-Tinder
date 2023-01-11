@@ -28,5 +28,5 @@ password: lisa123
 email: marge@gmail.com
 password: marge123
 
-# Heroku
+# Heroku (Currently unavailable due to Heroku's stop of free service)
 http://tinder2022.herokuapp.com/login
